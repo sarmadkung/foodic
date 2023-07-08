@@ -1,29 +1,109 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+// use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+// #[get("/")]
+// async fn hello() -> impl Responder {
+//     HttpResponse::Ok().body("Hello world!")
+// }
+
+// #[post("/echo")]
+// async fn echo(req_body: String) -> impl Responder {
+//     HttpResponse::Ok().body(req_body)
+// }
+
+// async fn manual_hello() -> impl Responder {
+//     HttpResponse::Ok().body("Hey there!")
+// }
+
+
+// #[actix_web::main]
+// async fn main() -> std::io::Result<()> {
+//     HttpServer::new(|| {
+//         App::new()
+//             .service(hello)
+//             .service(echo)
+//             .route("/hey", web::get().to(manual_hello))
+//     })
+//     .bind(("127.0.0.1", 8080))?
+//     .run()
+//     .await
+// }
+
+use serde::{Deserialize, Serialize};
+use surrealdb::engine::remote::ws::Ws;
+use surrealdb::opt::auth::Root;
+use surrealdb::sql::Thing;
+use surrealdb::Surreal;
+
+#[derive(Debug, Serialize)]
+struct Name<'a> {
+    first: &'a str,
+    last: &'a str,
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
+#[derive(Debug, Serialize)]
+struct Person<'a> {
+    title: &'a str,
+    name: Name<'a>,
+    marketing: bool,
 }
 
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+#[derive(Debug, Serialize)]
+struct Responsibility {
+    marketing: bool,
 }
 
+#[derive(Debug, Deserialize)]
+struct Record {
+    #[allow(dead_code)]
+    id: Thing,
+}
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
+#[tokio::main]
+async fn main() -> surrealdb::Result<()> {
+    // Connect to the server
+    let db = Surreal::new::<Ws>("127.0.0.1:8000").await?;
+
+    // Signin as a namespace, database, or root user
+    db.signin(Root {
+        username: "root",
+        password: "root",
     })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+    .await?;
+
+    // Select a specific namespace / database
+    db.use_ns("test").use_db("test").await?;
+
+    // Create a new person with a random id
+    let created: Record = db
+        .create("person")
+        .content(Person {
+            title: "Founder & CEO",
+            name: Name {
+                first: "Tobie",
+                last: "Morgan Hitchcock",
+            },
+            marketing: true,
+        })
+    .await?;
+    dbg!(created);
+
+    // Update a person record with a specific id
+    let updated: Record = db
+        .update(("person", "jaime"))
+        .merge(Responsibility { marketing: true })
+        .await?;
+    dbg!(updated);
+
+    // Select all people records
+    let people: Vec<Record> = db.select("person").await?;
+    dbg!(people);
+
+    // Perform a custom advanced query
+    let groups = db
+        .query("SELECT marketing, count() FROM type::table($table) GROUP BY marketing")
+        .bind(("table", "person"))
+        .await?;
+    dbg!(groups);
+
+    Ok(())
 }
