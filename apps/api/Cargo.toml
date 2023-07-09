@@ -7,8 +7,9 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4"
-diesel = { version = "2.1.0", features = ["postgres"] }
+cargo-watch = "8.4.0"
 dotenvy = "0.15"
+futures = "0.3.28"
+mongodb = "2.6.0"
 serde = { version = "1.0.167", features = ["derive"] }
-surrealdb = "1.0.0-beta.9"
 tokio = { version = "1.29.1", features = ["macros", "rt-multi-thread"] }

@@ -1,109 +1,77 @@
-// use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-
-// #[get("/")]
-// async fn hello() -> impl Responder {
-//     HttpResponse::Ok().body("Hello world!")
-// }
-
-// #[post("/echo")]
-// async fn echo(req_body: String) -> impl Responder {
-//     HttpResponse::Ok().body(req_body)
-// }
-
-// async fn manual_hello() -> impl Responder {
-//     HttpResponse::Ok().body("Hey there!")
-// }
-
-
-// #[actix_web::main]
-// async fn main() -> std::io::Result<()> {
-//     HttpServer::new(|| {
-//         App::new()
-//             .service(hello)
-//             .service(echo)
-//             .route("/hey", web::get().to(manual_hello))
-//     })
-//     .bind(("127.0.0.1", 8080))?
-//     .run()
-//     .await
-// }
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use futures::stream::TryStreamExt;
+use mongodb::{bson::doc, options::ClientOptions, Client};
+mod api;
+mod database;
+mod models;
+use api::users::get_users;
+use database::connection::create_client;
+use models::users::User;
 
 use serde::{Deserialize, Serialize};
-use surrealdb::engine::remote::ws::Ws;
-use surrealdb::opt::auth::Root;
-use surrealdb::sql::Thing;
-use surrealdb::Surreal;
 
-#[derive(Debug, Serialize)]
-struct Name<'a> {
-    first: &'a str,
-    last: &'a str,
+// Define a type that models our data.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct Item {
+    id: u32,
+}
+#[get("/")]
+async fn hello() -> impl Responder {
+    get_users();
+    let client = create_client().await;
+
+    // Parameterize our collection with the model.
+    let col = client.database("foodic").collection::<User>("users");
+
+    let filter = doc! {"first_name":"Muhammad"};
+    let mut users = col.find(filter, None).await.unwrap();
+    // for i in 0..5 {
+    //     // Perform operations that work with directly our model.
+    //     let _ = coll
+    //         .insert_one(
+    //             User {
+    //                 id: i,
+    //                 first_name: "Muhammad".to_string(),
+    //                 last_name: "Sarmad".to_string(),
+    //                 email: "muhammadsarmad24@gmail.com".to_string(),
+    //                 password: "Sarmad!123".to_string(),
+    //             },
+    //             None,
+    //         )
+    //         .await;
+    // }
+    while let Some(user) = users.try_next().await.unwrap() {
+        println!("User Id: {}", user.id);
+    }
+
+    HttpResponse::Ok().body("hello world")
 }
 
-#[derive(Debug, Serialize)]
-struct Person<'a> {
-    title: &'a str,
-    name: Name<'a>,
-    marketing: bool,
+#[post("/echo")]
+async fn echo(req_body: String) -> impl Responder {
+    HttpResponse::Ok().body(req_body)
 }
 
-#[derive(Debug, Serialize)]
-struct Responsibility {
-    marketing: bool,
+async fn manual_hello() -> impl Responder {
+    HttpResponse::Ok().body("Hey there!")
 }
 
-#[derive(Debug, Deserialize)]
-struct Record {
-    #[allow(dead_code)]
-    id: Thing,
-}
-
-#[tokio::main]
-async fn main() -> surrealdb::Result<()> {
-    // Connect to the server
-    let db = Surreal::new::<Ws>("127.0.0.1:8000").await?;
-
-    // Signin as a namespace, database, or root user
-    db.signin(Root {
-        username: "root",
-        password: "root",
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    // Send a ping to confirm a successful connection
+    // client
+    // .database("admin")
+    // .run_command(doc! {"ping": 1}, None)
+    // .await;
+    println!("Pinged your deployment. You successfully connected to MongoDB!");
+    // Ok(())
+    HttpServer::new(|| {
+        App::new()
+            .service(hello)
+            .service(echo)
+            .route("/hey", web::get().to(manual_hello))
     })
-    .await?;
-
-    // Select a specific namespace / database
-    db.use_ns("test").use_db("test").await?;
-
-    // Create a new person with a random id
-    let created: Record = db
-        .create("person")
-        .content(Person {
-            title: "Founder & CEO",
-            name: Name {
-                first: "Tobie",
-                last: "Morgan Hitchcock",
-            },
-            marketing: true,
-        })
-    .await?;
-    dbg!(created);
-
-    // Update a person record with a specific id
-    let updated: Record = db
-        .update(("person", "jaime"))
-        .merge(Responsibility { marketing: true })
-        .await?;
-    dbg!(updated);
-
-    // Select all people records
-    let people: Vec<Record> = db.select("person").await?;
-    dbg!(people);
-
-    // Perform a custom advanced query
-    let groups = db
-        .query("SELECT marketing, count() FROM type::table($table) GROUP BY marketing")
-        .bind(("table", "person"))
-        .await?;
-    dbg!(groups);
-
-    Ok(())
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
