@@ -1,6 +1,6 @@
-# Turborepo starter
+# Foodic
 
-This is an official starter Turborepo.
+Foodic is an application system that can be used at restaurants, and hotels, and for food lovers. The application will assist those who struggle to provide better food, and service qualities as well as foodie.
 
 ## Using this example
 
