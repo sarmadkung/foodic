@@ -2,13 +2,11 @@
 
 Foodic is an application system that can be used at restaurants, and hotels, and for food lovers. The application will assist those who struggle to provide better food, and service qualities as well as foodie.
 
-## Using this example
+## We are building following apps
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+### Mobile app  (In progress...)
+### web app  (In progress...)
+### Desktop app (In progress...)
 
 ## What's inside?
 
