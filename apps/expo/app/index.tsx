@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Text } from "ui";
+import { Button } from "ui";
 export default function Page() {
   return (
     <View>
@@ -11,12 +12,16 @@ export default function Page() {
         lineBreakMode="clip"
         style={[
           {
-            width: 100,
+            width: 200,
           },
         ]}
       >
         Welcome here at expo router
       </Text>
+      <Button variant="primary">
+        <Text variant="title"
+        colorVariant="body">ME</Text>
+      </Button>
     </View>
   );
 }
