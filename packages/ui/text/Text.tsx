@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Text as TextPlain, TextProps } from "react-native";
+import { Text as TextPlain, TextProps, TextStyle } from "react-native";
 
 const variants: Record<TextVariants, any> = {
   caption: {
@@ -13,7 +13,7 @@ const variants: Record<TextVariants, any> = {
   },
 };
 
-const colorVariants: Record<TextVariants, any> = {
+const colorVariants: Record<TextVariants, TextStyle> = {
   caption: {
     color: "gray",
   },

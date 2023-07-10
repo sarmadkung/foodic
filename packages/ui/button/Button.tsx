@@ -2,8 +2,8 @@ import { FC } from "react";
 import {
   TouchableOpacity,
   TouchableOpacityProps,
-  GestureResponderEvent,
   View,
+  ViewStyle,
 } from "react-native";
 
 const variants: Record<ButtonVariants, any> = {
@@ -16,29 +16,17 @@ const variants: Record<ButtonVariants, any> = {
   outline: {
     fontSize: 20,
   },
-  link: {
-    fontSize: 20,
-  },
-  solid: {
-    fontSize: 20,
-  },
 };
 
-const colorVariants: Record<ButtonVariants, any> = {
+const colorVariants: Record<ButtonVariants, ViewStyle> = {
   primary: {
-    color: "gray",
+    backgroundColor: "red",
   },
   secondary: {
-    color: "black",
+    backgroundColor: "black",
   },
   outline: {
-    color: "blue",
-  },
-  link: {
-    fontSize: 20,
-  },
-  solid: {
-    fontSize: 20,
+    backgroundColor: "blue",
   },
 };
 
@@ -60,7 +48,7 @@ export const Button: FC<ButtonType> = ({
   );
 };
 
-type ButtonVariants = "primary" | "secondary" | "outline" | "link" | "solid";
+type ButtonVariants = "primary" | "secondary" | "outline";
 export type ButtonType = TouchableOpacityProps & {
   children?: React.JSX.Element;
   variant: ButtonVariants;

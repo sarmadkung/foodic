@@ -1,27 +1,32 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "ui";
+import { Row, Text, TextFiled } from "ui";
 import { Button } from "ui";
 export default function Page() {
   return (
-    <View>
-      <Text
-        variant="title"
-        colorVariant="body"
-        numberOfLines={1}
-        lineBreakMode="clip"
-        style={[
-          {
-            width: 200,
-          },
-        ]}
-      >
-        Welcome here at expo router
-      </Text>
-      <Button variant="primary">
-        <Text variant="title"
-        colorVariant="body">ME</Text>
-      </Button>
+    <View
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#333",
+        flex: 1,
+      }}
+    >
+      <Row>
+        <Text variant="title" colorVariant="body">
+          Welcome here at expo router
+        </Text>
+        <Button variant="primary">
+          <Text variant="title" colorVariant="body">
+            ME
+          </Text>
+        </Button>
+      </Row>
+      <TextFiled
+        style={{ padding: 10, color: "red" }}
+        placeholderTextColor="pink"
+        placeholder="Enter your name"
+      />
     </View>
   );
 }
