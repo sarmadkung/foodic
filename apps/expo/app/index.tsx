@@ -16,7 +16,7 @@ export default function Page() {
         <Text variant="title" colorVariant="body">
           Welcome here at expo router
         </Text>
-        <Button variant="primary">
+        <Button variant="outline">
           <Text variant="title" colorVariant="body">
             ME
           </Text>
