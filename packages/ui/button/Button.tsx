@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import {
   TouchableOpacity,
   TouchableOpacityProps,
@@ -69,7 +69,7 @@ export const Button: FC<ButtonType> = ({
 
 type ButtonVariants = "primary" | "secondary" | "outline";
 export type ButtonType = TouchableOpacityProps & {
-  children?: React.JSX.Element;
+  children?: ReactNode;
   variant: ButtonVariants;
   colorVariant: ButtonVariants;
   // onPress: ((event: GestureResponderEvent) => void) | undefined;

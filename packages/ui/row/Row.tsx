@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { View, ViewProps } from "react-native";
 
 export const Row: FC<RowType> = ({ children, style, ...props }) => {
@@ -10,5 +10,5 @@ export const Row: FC<RowType> = ({ children, style, ...props }) => {
 };
 
 type RowType = ViewProps & {
-  children?: JSX.Element;
+  children?: ReactNode;
 };

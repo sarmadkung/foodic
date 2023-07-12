@@ -23,4 +23,4 @@ type TextFieldType = TextInputProps & {
   variant: TextInputVariants;
 };
 
-type TextInputVariants = "oultined" | "filled";
+type TextInputVariants = "outlined" | "filled";
