@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Text as TextPlain, TextProps, TextStyle } from "react-native";
+import { lightTheme } from "../colors";
 
 const variants: Record<TextVariants, any> = {
   caption: {
@@ -15,13 +16,14 @@ const variants: Record<TextVariants, any> = {
 
 const colorVariants: Record<TextVariants, TextStyle> = {
   caption: {
-    color: "gray",
+    color: lightTheme.color.caption,
   },
   body: {
-    color: "black",
+    color: lightTheme.color.body,
   },
   title: {
-    color: "blue",
+    color: lightTheme.color.title,
+
   },
 };
 

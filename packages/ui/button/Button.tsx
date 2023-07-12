@@ -33,7 +33,7 @@ const variants: Record<ButtonVariants, any> = {
     paddingVertical: 8,
     paddingHorizontal: 50,
     borderWidth: 2,
-    borderColor: "#3ba294",
+    borderColor: lightTheme.color.base1,
   },
 };
 
@@ -62,7 +62,7 @@ export const Button: FC<ButtonType> = ({
       style={[[variants[variant]], [colorVariants[colorVariant], style]]}
       {...props}
     >
-      <View>{children}</View>
+      {children}
     </TouchableOpacity>
   );
 };

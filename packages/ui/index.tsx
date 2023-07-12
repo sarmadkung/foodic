@@ -7,3 +7,4 @@ export * from "./text";
 export * from "./container";
 export * from "./row";
 export * from "./text-field";
+export * from "./column";
