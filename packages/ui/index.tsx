@@ -9,4 +9,6 @@ export * from "./row";
 export * from "./text-field";
 export * from "./column";
 export * from "./box";
-export * from "./image"
+export * from "./image";
+export * from "./label";
+export * from "./text-field-icons";

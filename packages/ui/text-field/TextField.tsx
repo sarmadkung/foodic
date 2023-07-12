@@ -20,7 +20,7 @@ const variants: Record<TextInputVariants, any> = {
   },
 };
 
-export const TextFiled: FC<TextFieldType> = ({ variant="outlined", style, ...props }) => {
+export const TextField: FC<TextFieldType> = ({ variant="default", style, ...props }) => {
   return <TextInput style={[[variants[variant],style]]} {...props} />;
 };
 

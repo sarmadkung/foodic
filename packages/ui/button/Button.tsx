@@ -1,76 +1,141 @@
-import { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import {
   TouchableOpacity,
-  TouchableOpacityProps,
-  View,
   ViewStyle,
+  TextStyle,
+  TouchableOpacityProps,
+  Linking,
 } from "react-native";
 import { lightTheme } from "../colors";
-// @ts-ignore
-const variants: Record<ButtonVariants, any> = {
-  primary: {
-    fontSize: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 50,
-    borderRadius: 4,
-    elevation: 3,
-  },
-  secondary: {
-    fontSize: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 50,
-    borderRadius: 4,
-    elevation: 3,
-  },
-  outline: {
-    fontSize: 20,
-    background: "transparent",
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 50,
-    borderWidth: 2,
-    borderColor: lightTheme.color.base1,
-  },
+import { Text } from "../text";
+
+type ButtonVariants =
+  | "default"
+  | "outlined"
+  | "highlighted"
+  | "link"
+  | "primary"
+  | "secondary";
+
+export type ButtonType = TouchableOpacityProps & {
+  variant?: ButtonVariants;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  linkUrl?: string;
+  colorVariant?: ColorVariants;
 };
 
-const colorVariants: Record<ButtonVariants, ViewStyle> = {
+const variants: Record<
+  ButtonVariants,
+  { buttonStyle: ViewStyle; textStyle: TextStyle }
+> = {
+  default: {
+    buttonStyle: {
+      backgroundColor: "#007AFF",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "white",
+    },
+  },
+  outlined: {
+    buttonStyle: {
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      borderColor: "#007AFF",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "#007AFF",
+    },
+  },
+  highlighted: {
+    buttonStyle: {
+      backgroundColor: "#FF3B30",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "white",
+    },
+  },
+  link: {
+    buttonStyle: {
+      backgroundColor: "transparent",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "#007AFF",
+      textDecorationLine: "underline",
+    },
+  },
+  primary: {
+    buttonStyle: {
+      backgroundColor: "#FFD700",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "black",
+    },
+  },
+  secondary: {
+    buttonStyle: {
+      backgroundColor: "lightgray",
+      padding: 10,
+      borderRadius: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      color: "black",
+    },
+  },
+};
+type ColorVariants = "primary" | "secondary" | "link";
+
+const colorVariants: Record<ColorVariants, ViewStyle> = {
   primary: {
     backgroundColor: lightTheme.color.base1,
   },
   secondary: {
     backgroundColor: lightTheme.color.base2,
   },
-  outline: {
+  link: {
     backgroundColor: lightTheme.color.base3,
   },
 };
 
 export const Button: FC<ButtonType> = ({
-  variant = "primary",
-  colorVariant,
+  variant = "highlighted",
+  colorVariant = "secondary",
   style,
   children,
   onPress,
   ...props
 }) => {
+  const linkUrl = "https://www.linkedin.com/"
+  const handlePress = () => {
+    if (variant === 'link' && linkUrl) {
+      Linking.openURL(linkUrl);
+    }
+  };
   return (
     <TouchableOpacity
-      style={[[variants[variant]], [colorVariants[colorVariant], style]]}
+    onPress={handlePress}
+      style={[[variants[variant].buttonStyle], [colorVariants[colorVariant], style]]}
       {...props}
     >
-      {children}
+      <Text colorVariant="title" variant="title">
+        {children}
+      </Text>
     </TouchableOpacity>
   );
-};
-
-type ButtonVariants = "primary" | "secondary" | "outline";
-export type ButtonType = TouchableOpacityProps & {
-  children?: ReactNode;
-  variant: ButtonVariants;
-  colorVariant: ButtonVariants;
-  // onPress: ((event: GestureResponderEvent) => void) | undefined;
 };
