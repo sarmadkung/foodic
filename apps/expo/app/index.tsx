@@ -16,13 +16,14 @@ export default function Page() {
         <Text variant="title" colorVariant="body">
           Welcome here at expo router
         </Text>
-        <Button variant="outline">
+        <Button colorVariant="primary" variant="outline">
           <Text variant="title" colorVariant="body">
             ME
           </Text>
         </Button>
       </Row>
       <TextFiled
+        variant="outlined"
         style={{ padding: 10, color: "red" }}
         placeholderTextColor="pink"
         placeholder="Enter your name"
