@@ -1,19 +1,39 @@
+/* eslint-disable react/jsx-no-undef */
 import { FC } from "react";
-import { View, ViewProps } from "react-native";
+import { ViewProps, TouchableOpacity, ImageSourcePropType } from "react-native";
+import { Text } from "../text";
+import { Image } from "../image";
 
-export const Box: FC<BoxType> = ({ children, style, ...props }) => {
+export const Box: FC<BoxType> = ({
+  imageSource,
+  title,
+  description,
+  onPress,
+  children,
+  style,
+  ...props
+}) => {
   return (
-    <View style={[{ flexDirection: "row" }, style]} {...props}>
-      {/* <Image alt="image">
-
-      </Image>
-      <Text variant="title"> */}
-      {/* </Text> */}
-      {children}
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <Image
+        alt="image"
+        source={imageSource}
+        variant="large"
+      />
+      <Text variant="title" colorVariant="body">
+        {title}
+      </Text>
+      <Text variant="body" colorVariant="body">
+        {description}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
 type BoxType = ViewProps & {
+  imageSource: ImageSourcePropType;
+  title: string;
+  description: string;
   children?: any;
+  onPress?: () => void;
 };

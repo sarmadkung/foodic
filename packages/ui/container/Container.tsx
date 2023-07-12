@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { View, ViewProps } from "react-native";
 
 export const Container: FC<ContainerType> = ({ children, ...props }) => {
@@ -6,5 +6,5 @@ export const Container: FC<ContainerType> = ({ children, ...props }) => {
 };
 
 type ContainerType = ViewProps & {
-  children: JSX.Element;
+  children: ReactNode;
 };

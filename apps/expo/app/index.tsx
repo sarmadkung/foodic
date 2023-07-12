@@ -1,8 +1,11 @@
 import React from "react";
 import { View } from "react-native";
-import { Row, Text, TextFiled } from "ui";
+import { Box, Image, Row, Text, TextFiled } from "ui";
 import { Button } from "ui";
+
+
 export default function Page() {
+  const handlePress = () => { alert("im presed")}
   return (
     <View
       style={{
@@ -27,6 +30,12 @@ export default function Page() {
         style={{ padding: 10, color: "red" }}
         placeholderTextColor="pink"
         placeholder="Enter your name"
+      />
+      <Box
+        imageSource={require("../../../apps/expo/assets/dish.jpg")}
+        title="Box Title"
+        description="Box Description"
+        onPress={handlePress}
       />
     </View>
   );
