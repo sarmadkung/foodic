@@ -1,6 +1,6 @@
-import { MotiView } from "moti";
 import { useReducer } from "react";
 import { StyleSheet, Pressable, View } from "react-native";
+import { MotiView } from "moti";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
 
 function Shape() {
@@ -22,7 +22,7 @@ function Shape() {
   );
 }
 
-export const LoginScreen = () => {
+export const SignUp = () => {
   const [visible, toggle] = useReducer((s) => !s, true);
 
   return (
@@ -61,6 +61,22 @@ export const LoginScreen = () => {
       </View>
       <Spacer variant="medium" />
       <View>
+        <Label style={{ marginBottom: 5 }}>First name</Label>
+        <TextField variant="solid"></TextField>
+      </View>
+      <Spacer variant="medium" />
+
+      <View>
+        <Label style={{ marginBottom: 5 }}>Last name</Label>
+        <TextField variant="solid"></TextField>
+      </View>
+      <Spacer variant="medium" />
+      <View>
+        <Label style={{ marginBottom: 5 }}>Phone number</Label>
+        <TextField variant="solid"></TextField>
+      </View>
+      <Spacer variant="medium" />
+      <View>
         <Label style={{ marginBottom: 5 }}>Email</Label>
         <TextField variant="solid"></TextField>
       </View>
@@ -72,7 +88,7 @@ export const LoginScreen = () => {
       </View>
       <Spacer variant="large" />
       <View>
-        <Button style={{ width: 150, alignItems: "center" }}>Login</Button>
+        <Button style={{width:175, alignItems:"center"}}>Create account</Button>
       </View>
       </Container>
       </MotiView>
