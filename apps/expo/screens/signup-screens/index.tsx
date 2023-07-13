@@ -3,27 +3,9 @@ import { StyleSheet, Pressable, View } from "react-native";
 import { MotiView } from "moti";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
 
-function Shape() {
-  return (
-    <MotiView
-      from={{
-        opacity: 0,
-        scale: 0.5,
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-      }}
-      transition={{
-        type: "timing",
-      }}
-      style={styles.shape}
-    />
-  );
-}
+
 
 export const SignUp = () => {
-  const [visible, toggle] = useReducer((s) => !s, true);
 
   return (
     <MotiView
