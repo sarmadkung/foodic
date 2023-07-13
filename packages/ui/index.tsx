@@ -12,3 +12,4 @@ export * from "./box";
 export * from "./image";
 export * from "./label";
 export * from "./text-field-icons";
+export * from "./spacer";
