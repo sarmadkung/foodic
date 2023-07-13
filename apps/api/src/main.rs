@@ -6,7 +6,7 @@ mod database;
 mod models;
 use api::users::get_users;
 use database::connection::create_client;
-use models::users::User;
+use models::user::User;
 
 use serde::{Deserialize, Serialize};
 
@@ -41,7 +41,7 @@ async fn hello() -> impl Responder {
     //         .await;
     // }
     while let Some(user) = users.try_next().await.unwrap() {
-        println!("User Id: {}", user.id);
+        // println!("User Id: {}", user);
     }
 
     HttpResponse::Ok().body("hello world")
