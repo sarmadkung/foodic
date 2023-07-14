@@ -109,7 +109,7 @@ const colorVariants: Record<ColorVariants, ViewStyle> = {
     backgroundColor: lightTheme.color.base2,
   },
   link: {
-    backgroundColor: lightTheme.color.base3,
+    backgroundColor: "transparent",
   },
 };
 
