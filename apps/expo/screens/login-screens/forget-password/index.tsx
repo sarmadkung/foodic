@@ -41,45 +41,11 @@ export const ForgetPassword = () => {
         <Spacer variant="medium" />
         <View>
           <Label style={{ marginBottom: 5 }}>Email</Label>
-          <TextField variant="solid"></TextField>
+          <TextField variant="solid" placeholder="Enter email"></TextField>
         </View>
         <Spacer variant="medium" />
-
-        <View>
-          <Label style={{ marginBottom: 5 }}>Password</Label>
-          <TextField variant="solid"></TextField>
-          <Button colorVariant="link" variant="link" style={{ width: 185, alignItems: "center" }}>
-            <Text colorVariant="title"  variant="body">Forget Password?</Text>
-          </Button>
-        </View>
-        <Spacer variant="large" />
-        <View>
-          <Button style={{ width: 150, alignItems: "center" }}>Login</Button>
-        </View>
-        <View>
-          <Button colorVariant="link" variant="link" style={{ width: 185, alignItems: "center" }}>
-            <Text colorVariant="title"  variant="title">Create an account signup</Text>
-          </Button>
-        </View>
       </Container>
     </MotiView>
   );
 };
 
-const styles = StyleSheet.create({
-  shape: {
-    justifyContent: "center",
-    height: 250,
-    width: 250,
-    borderRadius: 25,
-    marginRight: 10,
-    backgroundColor: "white",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: "#9c1aff",
-  },
-});

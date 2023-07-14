@@ -3,7 +3,7 @@ import { useReducer } from "react";
 import { StyleSheet, Pressable, View } from "react-native";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
 
-export const LoginScreen = () => {
+export const PasswordChange = () => {
   return (
     <MotiView
       from={{
@@ -40,8 +40,12 @@ export const LoginScreen = () => {
         </View>
         <Spacer variant="medium" />
         <View>
-          <Label style={{ marginBottom: 5 }}>Verification Code</Label>
-          <TextField variant="solid" placeholder="Enter verification code"></TextField>
+          <Label style={{ marginBottom: 5 }}>Previous password</Label>
+          <TextField variant="solid" placeholder="Enter previous password"></TextField>
+        </View>
+        <View>
+          <Label style={{ marginBottom: 5 }}>New password</Label>
+          <TextField variant="solid" placeholder="Enter new password"></TextField>
         </View>
         <Spacer variant="medium" />
       </Container>
@@ -49,20 +53,3 @@ export const LoginScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  shape: {
-    justifyContent: "center",
-    height: 250,
-    width: 250,
-    borderRadius: 25,
-    marginRight: 10,
-    backgroundColor: "white",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: "#9c1aff",
-  },
-});

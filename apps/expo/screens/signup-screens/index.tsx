@@ -44,29 +44,29 @@ export const SignUp = () => {
       <Spacer variant="medium" />
       <View>
         <Label style={{ marginBottom: 5 }}>First name</Label>
-        <TextField variant="solid"></TextField>
+        <TextField variant="solid" placeholder="Enter first name"></TextField>
       </View>
       <Spacer variant="medium" />
 
       <View>
         <Label style={{ marginBottom: 5 }}>Last name</Label>
-        <TextField variant="solid"></TextField>
+        <TextField variant="solid" placeholder="Enter last name"></TextField>
       </View>
       <Spacer variant="medium" />
       <View>
         <Label style={{ marginBottom: 5 }}>Phone number</Label>
-        <TextField variant="solid"></TextField>
+        <TextField variant="solid" placeholder="Enter phone number"></TextField>
       </View>
       <Spacer variant="medium" />
       <View>
         <Label style={{ marginBottom: 5 }}>Email</Label>
-        <TextField variant="solid"></TextField>
+        <TextField variant="solid" placeholder="Enter email"></TextField>
       </View>
       <Spacer variant="medium" />
 
       <View>
         <Label style={{ marginBottom: 5 }}>Password</Label>
-        <TextField variant="solid"></TextField>
+        <TextField variant="solid" placeholder="Enter password"></TextField>
       </View>
       <Spacer variant="large" />
       <View>

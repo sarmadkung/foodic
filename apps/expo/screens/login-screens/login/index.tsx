@@ -39,13 +39,13 @@ export const LoginScreen = ({ navigation }: any) => {
         <Spacer variant="medium" />
         <View>
           <Label style={{ marginBottom: 5 }}>Email</Label>
-          <TextField variant="solid"></TextField>
+          <TextField variant="solid" placeholder="Enter email"></TextField>
         </View>
         <Spacer variant="medium" />
 
         <View>
           <Label style={{ marginBottom: 5 }}>Password</Label>
-          <TextField variant="solid"></TextField>
+          <TextField variant="solid" placeholder="Enter password"></TextField>
           <Button
             colorVariant="link"
             variant="link"
