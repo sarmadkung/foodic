@@ -1,14 +1,13 @@
 import { MotiView } from "moti";
-import { useReducer } from "react";
+import { router } from "expo-router";
 import { StyleSheet, Linking, View } from "react-native";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
-import { Link } from "@react-navigation/native";
 
 export const LoginScreen = ({ navigation }: any) => {
-
   const handlePress = () => {
-    navigation.navigate("SignUp")
-  }
+    if(router)
+    router.replace('/signup');
+  };
   return (
     <MotiView
       from={{ opacity: 0, translateY: -15 }}
@@ -68,9 +67,8 @@ export const LoginScreen = ({ navigation }: any) => {
             style={{ width: 185, alignItems: "center" }}
           >
             <Text colorVariant="title" variant="title">
-                Create an account signup
-              </Text>
-
+              Create an account signup
+            </Text>
           </Button>
         </View>
       </Container>
