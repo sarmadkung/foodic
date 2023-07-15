@@ -1,37 +1,37 @@
-// import React, { useEffect, useState } from "react";
-// import { View, TextInput } from "react-native";
-// import Cards from "../../../components/base/card";
-// import { useRouter } from "expo-router";
-// import supabase from "../../../config/initSupabase";
+import { Box, Container, Row, Spacer } from "ui";
 
-// export const Category = () => {
-//   const [error, setError] = useState<any>(null);
-//   const [dishes, setDishes] = useState<any>(null);
-//   const [selectedCategory, setSelectedCategory] = useState<any>("");
-//   const router = useRouter();
-//   const getDishes = async () => {
-//     const { data, error } = await supabase.from("uniquecategory").select();
-//     if (error) {
-//       setError("No dishes found");
-//       console.log(error);
-//       setDishes(null);
-//     }
-//     if (data) {
-//       setDishes(data);
-//       setError(null);
-//     }
-//   };
+export const Category = () => {
+  const handlePress = () => {
+    alert("im presed");
+  };
 
-//   useEffect(() => {
-//     getDishes();
-//   }, [getDishes]);
-//   const handleCategorySelect = (category: any) => {
-//     router.push(`/dishes/${category}`);
-//   };
+  return (
+    <Container style={{padding:10}}>
+      <Row >
+        <Box
+          imageSource={require("../../../assets/dish.jpg")}
+          title="Box Title"
+          description="Box Description"
+          onPress={handlePress}
+          style={{margin:10}}
+        />
+        <Spacer variant="medium" />
+        <Box
+          imageSource={require("../../../assets/dish.jpg")}
+          title="Box Title"
+          description="Box Description"
+          onPress={handlePress}
+          style={{margin:10}}
 
-//   return (
-//     <View>
-//       <Cards category={dishes} handleCategorySelect={handleCategorySelect} />
-//     </View>
-//   );
-// };
+        />
+        <Box
+          imageSource={require("../../../assets/dish.jpg")}
+          title="Box Title"
+          description="Box Description"
+          onPress={handlePress}
+          style={{margin:10}}
+        />
+      </Row>
+    </Container>
+  );
+};
