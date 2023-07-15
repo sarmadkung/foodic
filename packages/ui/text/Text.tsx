@@ -47,6 +47,6 @@ export const Text: FC<TextType> = ({
 type TextVariants = "body" | "title" | "caption";
 export type TextType = TextProps & {
   children: any;
-  variant: TextVariants;
-  colorVariant: TextVariants;
+  variant?: TextVariants;
+  colorVariant?: TextVariants;
 };
