@@ -14,4 +14,4 @@ export * from "./label";
 export * from "./text-field-icons";
 export * from "./spacer";
 export * from "./rowwithimagetext";
-
+export * from "./tables";
