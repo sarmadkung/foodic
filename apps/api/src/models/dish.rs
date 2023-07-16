@@ -7,12 +7,11 @@ pub struct Dish {
     pub id: Option<ObjectId>,
     pub name: String,
     pub ingredients: String,
-    pub genre: Genre,
+    pub genre: String,
     pub city: String,
     pub province: String,
 }
 
-#[derive(Clone)]
 enum Genre {
     Drink,
     Cuisine,
