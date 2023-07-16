@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Box, Label, Row, Text, TextField, RowImageText } from "ui";
+import { Box, Label, Row, Text, TextField, RowImageText, Container } from "ui";
 import { Button } from "ui";
 import { TextInputIcon } from "ui";
-import { ThemeProvider } from '../components/theme';
+import { ThemeProvider } from "../components/theme";
+import { useTheme } from "../context";
 
 export default function Page() {
-
+  const { theme } = useTheme();
   const handlePress = () => {
-    alert("im presed");
+    alert("im pressed");
   };
   return (
-    <ThemeProvider>
-    <View
+    <Container
       style={{
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#333",
+        backgroundColor: theme.colors.base,
         flex: 1,
       }}
     >
@@ -70,7 +70,6 @@ export default function Page() {
           price="$100"
         />
       </View>
-      </View>
-      </ThemeProvider>
+    </Container>
   );
 }
