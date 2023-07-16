@@ -1,5 +1,4 @@
-import {Dishes} from "../../screens/menu-screens/dishes";
-import OrderDetail from "../../screens/order-screens/order-detail";
+import {OrderItem} from "../../screens/order-screens/order-item";
 export default function Page() {
-  return <OrderDetail />;
+  return <OrderItem imageSource={require("../../assets/dish.jpg")} title={"Chiken"} quantity={1} price={"30"}  />;
 }
