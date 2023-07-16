@@ -1,6 +1,6 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
+  "include": [".", "../../apps/expo/components/theme"],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "noImplicitAny": false

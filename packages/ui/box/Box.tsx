@@ -14,7 +14,7 @@ export const Box: FC<BoxType> = ({
   ...props
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity style={style} onPress={onPress}>
       <Image
         alt="image"
         source={imageSource}
