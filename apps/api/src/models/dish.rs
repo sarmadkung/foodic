@@ -6,13 +6,14 @@ pub struct Dish {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
     pub id: Option<ObjectId>,
     pub name: String,
-    pub ingredients: String,
-    pub genre: String,
-    pub city: String,
-    pub province: String,
+    pub ingredients: Vec<String>,
+    pub dish_type: DishType,
 }
 
-enum Genre {
-    Drink,
-    Cuisine,
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum DishType {
+    Appetizer,
+    MainCourse,
+    Dessert,
+    Side,
 }
