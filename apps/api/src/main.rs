@@ -33,8 +33,6 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Send a ping to confirm a successful connection
-    // client
 
     let client = create_client().await;
     let db = client.database("foodic");
