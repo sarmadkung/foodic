@@ -1,80 +1,146 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import supabase from "../../../config/initSupabase";
-import { Button, Icon, Text } from "@rneui/themed";
-import { useRouter } from "expo-router";
+// ProfileDisplay.tsx
 
-export default function Profile({ profileId }: any) {
-  const [user, setUser] = useState<any>();
-  const router = useRouter();
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity,ImageSourcePropType } from 'react-native';
 
-  const handleEditUser = () => {
-    router.push(`/edit-profile/${profileId}`);
+// Define the user profile type
+export interface UserProfile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: number;
+  bio: string;
+  profilePic: ImageSourcePropType;
+  // Add any other relevant profile information here
+}
+
+export interface ProfileDisplayProps {
+  userProfile: UserProfile;
+  onEdit: (editedProfile: UserProfile) => void;
+}
+
+export const Profile: React.FC<ProfileDisplayProps> = ({ userProfile, onEdit }) => {
+  const [editableUserProfile, setEditableUserProfile] = useState<UserProfile>(userProfile);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const handleEditPress = () => {
+    if (isEditMode) {
+      onEdit(editableUserProfile); // Save the edited profile
+    }
+    setIsEditMode(!isEditMode);
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select()
-        .eq("id", profileId)
-        .single();
-      if (error) {
-        console.log(error);
-      }
-      if (data) {
-        setUser(data);
-        console.log(data);
-      }
-    };
-    getUser();
-  }, []);
+  const handleChange = (field: keyof UserProfile, value: string) => {
+    setEditableUserProfile((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.subtitle}>Name</Text>
-        <Text style={styles.subtitle}>Email</Text>
-        <Text style={styles.subtitle}>Job role</Text>
-        <Text style={styles.subtitle}>Mobile #</Text>
-      </View>
-      <View style={styles.main}>
-        <Text style={styles.subtitle}>
-          {user?.first_name} {user?.last_name}
-        </Text>
-        <Text style={styles.subtitle}>{user?.email}</Text>
-        <Text style={styles.subtitle}>{user?.job_role.toString()}</Text>
-        <Text style={styles.subtitle}>{user?.cell_number}</Text>
-      </View>
-      <View>
-        <Button onPress={handleEditUser} radius={"sm"} type="solid">
-          Edit user
-          <Icon name="edit" color="white" />
-        </Button>
+      <TouchableOpacity activeOpacity={0.8} onPress={handleEditPress} style={styles.editButton}>
+        <Text style={styles.editButtonText}>{isEditMode ? 'Save' : 'Edit'}</Text>
+      </TouchableOpacity>
+
+      <View style={styles.profileContainer}>
+        <View style={styles.profilePicContainer}>
+          <Image alt="imgage" source={ userProfile.profilePic } style={styles.profilePic} />
+        </View>
+
+        {isEditMode ? (
+          <View>
+            <Text style={styles.label}>First Name:</Text>
+            <TextInput
+              style={styles.input}
+              value={editableUserProfile.firstName}
+              onChangeText={(value) => handleChange('firstName', value)}
+            />
+
+            <Text style={styles.label}>Last Name:</Text>
+            <TextInput
+              style={styles.input}
+              value={editableUserProfile.lastName}
+              onChangeText={(value) => handleChange('lastName', value)}
+            />
+
+            <Text style={styles.label}>Email:</Text>
+            <TextInput
+              style={styles.input}
+              value={editableUserProfile.email}
+              onChangeText={(value) => handleChange('email', value)}
+              keyboardType="email-address"
+            />
+
+            <Text style={styles.label}>Age:</Text>
+            <TextInput
+              style={styles.input}
+              value={String(editableUserProfile.age)}
+              onChangeText={(value) => handleChange('age', value)}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.label}>Bio:</Text>
+            <TextInput
+              style={styles.input}
+              value={editableUserProfile.bio}
+              onChangeText={(value) => handleChange('bio', value)}
+              multiline
+            />
+          </View>
+        ) : (
+          <View>
+            <Text style={styles.label}>First Name: {userProfile.firstName}</Text>
+            <Text style={styles.label}>Last Name: {userProfile.lastName}</Text>
+            <Text style={styles.label}>Email: {userProfile.email}</Text>
+            <Text style={styles.label}>Age: {userProfile.age}</Text>
+            <Text style={styles.label}>Bio: {userProfile.bio}</Text>
+          </View>
+        )}
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: 24,
+    padding: 20,
+    alignItems: 'center',
   },
-  main: {
-    flex: 1,
-    justifyContent: "space-between",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+  editButton: {
+    marginBottom: 20,
   },
-  title: {
-    marginBottom: 10,
-    fontSize: 23,
-    fontWeight: "bold",
+  editButtonText: {
+    fontSize: 16,
+    color: 'blue',
+    fontWeight: 'bold',
   },
-  subtitle: {
-    fontSize: 23,
-    color: "#38434D",
+  profileContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  profilePicContainer: {
+    marginBottom: 20,
+  },
+  profilePic: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    resizeMode: 'cover',
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  input: {
+    height: 40,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 15,
   },
 });
