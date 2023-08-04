@@ -33,7 +33,6 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-
     let client = create_client().await;
     let db = client.database("foodic");
     // Create the application state with the MongoDB database
@@ -51,7 +50,7 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/restaurant/update").route(web::post().to(update_restaurant)))
             .route("/hey", web::get().to(manual_hello))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 3005))?
     .run()
     .await
 }
