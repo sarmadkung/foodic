@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
     // Create the application state with the MongoDB database
     let app_state = web::Data::new(AppState { db });
     println!("Pinged your deployment. You successfully connected to MongoDB!");
-    // Ok(())
+    // Ok(());
     HttpServer::new(move || {
         App::new()
             .app_data(app_state.clone())
