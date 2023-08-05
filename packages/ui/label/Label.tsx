@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
 
+
 type LabelVariants = 'default' | 'outlined' | 'highlighted';
 
 interface LabelProps extends TextProps {
