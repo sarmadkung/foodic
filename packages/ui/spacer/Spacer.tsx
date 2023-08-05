@@ -28,12 +28,17 @@ export const Spacer: React.FC<SpacerProps> = ({ variant = 'medium', style }) => 
 
  const styles = StyleSheet.create({
   small: {
-    height: 10,
+     height: 10,
+    margin:10,
   },
   medium: {
     height: 20,
+    margin:10
+
   },
   large: {
     height: 30,
+    margin:10
+
   },
 });
