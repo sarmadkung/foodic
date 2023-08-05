@@ -1,12 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "cd apps/foodic-api && cargo build -r && cd ../../",
+    "build:api": "cd apps/foodic-api && cargo build -r && cd ../../",
     "up": "pm2 start apps/foodic-api/target/release/foodic-api --watch",
     "down": "pm2 stop 0 --watch && pm2 delete 0",
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "build:api":"cd  apps/api && cargo build --release",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean:modules": "find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \\;"
