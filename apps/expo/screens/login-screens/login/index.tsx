@@ -1,12 +1,54 @@
 import { MotiView } from "moti";
 import { router } from "expo-router";
-import { StyleSheet, Linking, View } from "react-native";
+import { StyleSheet, Linking, View, TouchableOpacity } from "react-native";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
+import { useGet } from "../../../components/hooks/useGet";
+import { useCallback, useState } from "react";
+import { usePost } from "../../../components/hooks/usePost";
+
+interface ApiResponse {
+  // Define the structure of the API response here
+}
+
+interface ApiError {
+  // Define the structure of the error object here
+}
 
 export const LoginScreen = ({ navigation }: any) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<any>("");
+
+  const handleEmailChange = (e: any) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e: any) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  };
+
+
+
+  const { data, error, isLoading, isValidating, postRequest } = usePost<
+    ApiResponse,
+    ApiError
+  >(
+    "http://localhost:3005/login",
+    { 'Authorization': 'Bearer YOUR_TOKEN' },
+  );
+
+  const OnLoginClick = useCallback(
+    async () => {
+      console.log("email");
+      console.log(email);
+      console.log(password);
+      const response = await postRequest({ email: email, password:password });
+    },
+[email, password]  );
+  // console.log(data);
+  // console.log(error);
   const handlePress = () => {
-    if(router)
-    router.replace('/signup');
+    if (router) router.replace("/signup");
   };
   return (
     <MotiView
@@ -38,13 +80,21 @@ export const LoginScreen = ({ navigation }: any) => {
         <Spacer variant="medium" />
         <View>
           <Label style={{ marginBottom: 5 }}>Email</Label>
-          <TextField variant="solid" placeholder="Enter email"></TextField>
+          <TextField
+            onChange={handleEmailChange}
+            variant="solid"
+            placeholder="Enter email"
+          ></TextField>
         </View>
         <Spacer variant="medium" />
 
         <View>
           <Label style={{ marginBottom: 5 }}>Password</Label>
-          <TextField variant="solid" placeholder="Enter password"></TextField>
+          <TextField
+            onChange={handlePasswordChange}
+            variant="solid"
+            placeholder="Enter password"
+          ></TextField>
           <Button
             colorVariant="link"
             variant="link"
@@ -57,11 +107,18 @@ export const LoginScreen = ({ navigation }: any) => {
         </View>
         <Spacer variant="large" />
         <View>
-          <Button style={{ width: 150, alignItems: "center" }}>Login</Button>
+          <TouchableOpacity
+            style={{ width: 150, alignItems: "center" }}
+          onPress={() => OnLoginClick()}
+          >
+            
+            
+            Login 
+          </TouchableOpacity>
+         
         </View>
         <View>
           <Button
-            onPress={() => handlePress}
             colorVariant="link"
             variant="link"
             style={{ width: 185, alignItems: "center" }}
