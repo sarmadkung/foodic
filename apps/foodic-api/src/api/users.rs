@@ -3,7 +3,21 @@ use crate::{
     models::{self, user::User},
 };
 use actix_web::{web, HttpResponse, Responder};
+use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use mongodb::bson::{doc, oid::ObjectId, Document};
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize)]
+struct LoginResponse {
+    token: String,
+}
+
+/// Our claims struct, it needs to derive `Serialize` and/or `Deserialize`
+#[derive(Debug, Serialize, Deserialize)]
+struct Claims {
+    email: String,
+    exp: usize,
+}
 
 #[derive(serde::Deserialize)]
 pub struct LoginRequest {
@@ -41,8 +55,19 @@ pub async fn login(data: web::Json<LoginRequest>, state: web::Data<AppState>) ->
         "password": &data.password,
     };
     if let Ok(Some(_)) = collection.find_one(query, None).await {
-        // Successful authentication
-        HttpResponse::Ok().body("Login successful!")
+        let my_claims = Claims {
+            email: data.email.to_owned(),
+            exp: 10000000000,
+        };
+
+        let token = encode(
+            &Header::default(),
+            &my_claims,
+            &EncodingKey::from_secret("my-secret".as_ref()),
+        )
+        .unwrap();
+        let obj = LoginResponse { token: token };
+        HttpResponse::Ok().json(obj)
     } else {
         // Failed authentication
         HttpResponse::Unauthorized().body("Invalid credentials")

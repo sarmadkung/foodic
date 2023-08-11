@@ -10,6 +10,8 @@ actix-web = "4"
 cargo-watch = "8.4.0"
 dotenvy = "0.15"
 futures = "0.3.28"
+jsonwebtoken = "8.3.0"
 mongodb = "2.6.0"
 serde = { version = "1.0.167", features = ["derive"] }
 tokio = { version = "1.29.1", features = ["macros", "rt-multi-thread"] }
+actix-cors = "0.5.0"
