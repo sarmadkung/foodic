@@ -13,7 +13,7 @@ async function fetcher<Data>(
   url: string,
   options: {
     headers: HeadersObject;
-    body: object;
+    body: any;
   }
 ): Promise<FetcherResult<Data>> {
   const response = await fetch(url, {
@@ -22,7 +22,7 @@ async function fetcher<Data>(
       ...options.headers,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(options.body),
+    body:JSON.stringify(options.body),
   });
 
   if (!response.ok) {
@@ -38,7 +38,7 @@ export function usePost<Data = any, ErrorType = any>(
   headers: HeadersObject = {},
   config?: SWRConfiguration<FetcherResult<Data>, ErrorType>
 ) {
-  const postRequest = async (body: object): Promise<FetcherResult<Data>> =>
+   const postRequest = async (body: object): Promise<FetcherResult<Data>> =>
     fetcher<Data>(url, { headers, body });
 
   const { data, error, isValidating }: SWRResponse<FetcherResult<Data>, ErrorType> = useSWR(
@@ -52,5 +52,6 @@ export function usePost<Data = any, ErrorType = any>(
     error,
     isLoading: !data && !error,
     isValidating,
+    postRequest,
   };
 }

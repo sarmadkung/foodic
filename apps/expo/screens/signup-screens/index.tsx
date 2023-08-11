@@ -2,10 +2,22 @@ import { useReducer } from "react";
 import { StyleSheet, Pressable, View } from "react-native";
 import { MotiView } from "moti";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
+import { usePost } from "../../components/hooks/usePost";
 
+interface ApiResponse {
+  // Define the structure of the API response here
+}
 
+interface ApiError {
+  // Define the structure of the error object here
+}
 
 export const SignUp = () => {
+  const { data, error, isLoading, isValidating } = usePost<ApiResponse, ApiError>(
+    'http://localhost:3005/singup',
+    // { 'Authorization': 'Bearer YOUR_TOKEN' }
+  );
+  console.log(data);
 
   return (
     <MotiView
