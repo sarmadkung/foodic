@@ -1,6 +1,6 @@
 use actix_cors::Cors;
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-use mongodb::{bson::doc, options::ClientOptions, Client};
+use actix_web::{get, http, post, web, App, HttpResponse, HttpServer, Responder};
+use mongodb::bson::doc;
 // MongoDB client instance
 
 mod api;
@@ -47,7 +47,6 @@ async fn main() -> std::io::Result<()> {
                 "http://localhost:3000",
                 "http://0.0.0.0:3000",
             ])
-            .allowed_origin_fn(|origin, _req_head| origin.as_bytes().ends_with(b".rust-lang.org"))
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
             .allowed_header(http::header::CONTENT_TYPE)
