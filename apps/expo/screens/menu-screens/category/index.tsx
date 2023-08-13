@@ -43,65 +43,6 @@ export const Category: React.FC<CategoryScreenProps> = ({
   const [searchText, setSearchText] = useState("");
   const [filteredCategories, setFilteredCategories] =
     useState<Category[]>(categories);
-  const headers: HeadersObject = {
-    Authorization: "Bearer YOUR_ACCESS_TOKEN",
-    "Custom-Header": "Custom-Value",
-    // Add any other headers you need for your specific use case
-  };
-
-  // usePost
-  const { data:postData, error:postError, isLoading:postLoading, isValidating:postvalid } = usePost<CategoryScreenProps, Error>(
-    '/api/data',
-    headers
-  );
-
-
-// useGet
-  const { data, error, isLoading, isValidating } = useGet<CategoryScreenProps>(
-    "https://api.coindesk.com/v1/bpi/currentprice.json",
-    headers
-  );
-
-  // useDelete
-const resourceId = 1
-  const url = `/api/resource/${resourceId}`;
-  const { isDeleting, deleteResource } = useDelete(url);
-  const handleDelete = () => {
-    // Call the deleteResource function to initiate the delete request.
-    deleteResource();
-  };
-  <button onClick={handleDelete} disabled={isDeleting}>
-        {isDeleting ? 'Deleting...' : 'Delete'}
-  </button>
-  
-
-  // usePut
-  const url2 = `/api/resource/${resourceId}`;
-  const [formData, setFormData] = useState<PutRequestData>({});
-
-  const { isUpdating, updateResource } = usePut(url2);
-
-  const handleUpdate = () => {
-    // Call the updateResource function to initiate the PUT request.
-    updateResource(formData);
-  };
-
-  <button onClick={handleUpdate} disabled={isUpdating}>
-  {isUpdating ? 'Updating...' : 'Update'}
-</button>
-
-  console.log(data)
-  // Handle loading and error states
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-
-
 
   const handleSearch = (text: string) => {
     setSearchText(text);

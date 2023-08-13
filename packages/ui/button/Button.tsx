@@ -121,15 +121,10 @@ export const Button: FC<ButtonType> = ({
   onPress,
   ...props
 }) => {
-  const linkUrl = "https://www.linkedin.com/"
-  const handlePress = () => {
-    if (variant === 'link' && linkUrl) {
-      Linking.openURL(linkUrl);
-    }
-  };
+ 
   return (
     <TouchableOpacity
-    onPress={handlePress}
+    onPress={onPress}
       style={[[variants[variant].buttonStyle], [colorVariants[colorVariant], style]]}
       {...props}
     >
