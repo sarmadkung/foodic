@@ -1,4 +1,5 @@
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+import { useState } from 'react';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 export type HeadersObject = {
   [key: string]: string;
@@ -16,42 +17,40 @@ async function fetcher<Data>(
     body: any;
   }
 ): Promise<FetcherResult<Data>> {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      ...options.headers,
-      'Content-Type': 'application/json',
-    },
-    body:JSON.stringify(options.body),
-  });
+  try {
+    const response: AxiosResponse<Data> = await axios.post(url, options.body, {
+      headers: {
+        ...options.headers,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    const error = new Error('An error occurred while fetching the data.');
-    throw error;
+    return { data: response.data };
+  } catch (error:any) {
+    return { error };
   }
-
-  return response.json();
 }
 
-export function usePost<Data = any, ErrorType = any>(
-  url: string,
-  headers: HeadersObject = {},
-  config?: SWRConfiguration<FetcherResult<Data>, ErrorType>
+export function usePost<Data = any>(
+  api: string
 ) {
-   const postRequest = async (body: object): Promise<FetcherResult<Data>> =>
-    fetcher<Data>(url, { headers, body });
+  const [response, setResponse] = useState<FetcherResult<Data>>({
+    data: undefined,
+    error: undefined,
+  });
 
-  const { data, error, isValidating }: SWRResponse<FetcherResult<Data>, ErrorType> = useSWR(
-    [url, JSON.stringify(headers)],
-    postRequest,
-    config
-  );
+  const postRequest = async (body: object) => {
+    try {
+      const headers: HeadersObject = {
+        Authorization: 'Bearer your-access-token', // Replace with your actual token
+      };
 
-  return {
-    data: data?.data,
-    error,
-    isLoading: !data && !error,
-    isValidating,
-    postRequest,
+      const result = await fetcher<Data>(api, { headers, body });
+      setResponse(result);
+    } catch (err:any) {
+      setResponse({ error: err });
+    }
   };
+
+  return { response, postRequest };
 }

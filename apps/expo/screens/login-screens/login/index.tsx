@@ -1,20 +1,11 @@
 import { MotiView } from "moti";
 import { router } from "expo-router";
-import { StyleSheet, Linking, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Button, Container, Image, Label, TextField, Text, Spacer } from "ui";
-import { useGet } from "../../../components/hooks/useGet";
 import { useCallback, useState } from "react";
 import { usePost } from "../../../components/hooks/usePost";
 
-interface ApiResponse {
-  // Define the structure of the API response here
-}
-
-interface ApiError {
-  // Define the structure of the error object here
-}
-
-export const LoginScreen = ({ navigation }: any) => {
+export const LoginScreen = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
 
@@ -27,35 +18,16 @@ export const LoginScreen = ({ navigation }: any) => {
     setPassword(e.target.value);
   };
 
+  const { response, postRequest } = usePost("http://localhost:3005/login");
 
+  const OnLoginClick = useCallback(async () => {
+    await postRequest({ email, password });
+    if (response) {
+      localStorage.setItem("token", response?.data?.token);
+      router.push("/categories");
+    }
+  }, [email, password, postRequest, response]);
 
-  const { data, error, isLoading, isValidating, postRequest } = usePost<
-    ApiResponse,
-    ApiError
-  >(
-    "http://localhost:3005/login",
-    { 'Authorization': 'Bearer YOUR_TOKEN' },
-  );
-
-  const OnLoginClick = useCallback(
-    async () => {
-      console.log("email");
-      console.log(email);
-      console.log(password);
-      const response = await postRequest({ email: email, password: password });
-      if (response.data) {
-        // Handle the response data
-        console.log(response.data);
-      }
-  
-      if (response.error) {
-        // Handle the error
-        console.log(response.error.message);
-      }
-    },
-[email, password]  );
-  // console.log(data);
-  // console.log(error);
   const handlePress = () => {
     if (router) router.replace("/signup");
   };
@@ -88,7 +60,9 @@ export const LoginScreen = ({ navigation }: any) => {
         </View>
         <Spacer variant="medium" />
         <View>
-          <Label style={{ marginBottom: 5 }}><Text>Email</Text></Label>
+          <Label style={{ marginBottom: 5 }}>
+            Email
+          </Label>
           <TextField
             onChange={handleEmailChange}
             variant="solid"
@@ -98,7 +72,9 @@ export const LoginScreen = ({ navigation }: any) => {
         <Spacer variant="medium" />
 
         <View>
-          <Label style={{ marginBottom: 5 }}><Text>Password</Text></Label>
+          <Label style={{ marginBottom: 5 }}>
+            Password
+          </Label>
           <TextField
             onChange={handlePasswordChange}
             variant="solid"
@@ -116,23 +92,19 @@ export const LoginScreen = ({ navigation }: any) => {
         </View>
         <Spacer variant="large" />
         <View>
-          <TouchableOpacity
-            style={{ width: 150, alignItems: "center" }}
-          onPress={() => OnLoginClick()}
+          <Button
+            style={{ width: 250, alignItems: "center" }}
+            onPress={() => OnLoginClick()}
           >
-            
-            <Text>
             Login
-            </Text>
-             
-          </TouchableOpacity>
-         
+          </Button>
         </View>
         <View>
           <Button
+            onPress={() => handlePress()}
             colorVariant="link"
             variant="link"
-            style={{ width: 185, alignItems: "center" }}
+            style={{ width: 250, alignItems: "center" }}
           >
             <Text colorVariant="title" variant="title">
               Create an account signup

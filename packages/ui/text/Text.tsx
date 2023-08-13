@@ -22,7 +22,7 @@ const colorVariants: Record<TextVariants, TextStyle> = {
     color: lightTheme.color.body,
   },
   title: {
-    color: lightTheme.color.title,
+    color: lightTheme.color.base1,
 
   },
 };
