@@ -1,3 +1,4 @@
+use log::{ info, warn, error, debug, };
 use crate::{
     database::connection::AppState,
     models::{self, user::User},
@@ -47,8 +48,8 @@ pub fn validate_signup_data(data: &SignupRequest) -> bool {
 
 pub async fn login(data: web::Json<LoginRequest>, state: web::Data<AppState>) -> HttpResponse {
     // Access the MongoDB client from the application state
+    info!("Something weird occured: {}", data);
     let collection = state.db.collection::<User>("users");
-
     // Query the database to check if the provided email and password are valid
     let query = doc! {
         "email": &data.email,
