@@ -1,6 +1,9 @@
 use actix_cors::Cors;
 use actix_web::{get, http, post, web, App, HttpResponse, HttpServer, Responder};
 use mongodb::bson::doc;
+use log::{debug, error, log_enabled, info, Level};
+
+
 // MongoDB client instance
 
 mod api;
@@ -33,6 +36,7 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
     let client = create_client().await;
     let db = client.database("foodic");
     // Create the application state with the MongoDB database
