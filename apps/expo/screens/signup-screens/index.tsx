@@ -142,7 +142,7 @@ export const SignUp = () => {
         <View>
           <Button
             onPress={OnSignupClick}
-            style={{ width: 175, alignItems: "center" }}
+            style={{ width: 250, alignItems: "center" }}
           >
             Create account
           </Button>

@@ -128,7 +128,7 @@ export const Button: FC<ButtonType> = ({
       style={[[variants[variant].buttonStyle], [colorVariants[colorVariant], style]]}
       {...props}
     >
-      <Text colorVariant="title" variant="title">
+      <Text colorVariant="body" variant="title">
         {children}
       </Text>
     </TouchableOpacity>

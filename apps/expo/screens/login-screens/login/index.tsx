@@ -61,7 +61,7 @@ export const LoginScreen = () => {
         <Spacer variant="medium" />
         <View>
           <Label style={{ marginBottom: 5 }}>
-            <Text>Email</Text>
+            Email
           </Label>
           <TextField
             onChange={handleEmailChange}
@@ -73,7 +73,7 @@ export const LoginScreen = () => {
 
         <View>
           <Label style={{ marginBottom: 5 }}>
-            <Text>Password</Text>
+            Password
           </Label>
           <TextField
             onChange={handlePasswordChange}
@@ -93,7 +93,7 @@ export const LoginScreen = () => {
         <Spacer variant="large" />
         <View>
           <Button
-            style={{ width: 150, alignItems: "center" }}
+            style={{ width: 250, alignItems: "center" }}
             onPress={() => OnLoginClick()}
           >
             Login
@@ -104,7 +104,7 @@ export const LoginScreen = () => {
             onPress={() => handlePress()}
             colorVariant="link"
             variant="link"
-            style={{ width: 185, alignItems: "center" }}
+            style={{ width: 250, alignItems: "center" }}
           >
             <Text colorVariant="title" variant="title">
               Create an account signup
