@@ -42,7 +42,16 @@ export const LoginScreen = ({ navigation }: any) => {
       console.log("email");
       console.log(email);
       console.log(password);
-      const response = await postRequest({ email: email, password:password });
+      const response = await postRequest({ email: email, password: password });
+      if (response.data) {
+        // Handle the response data
+        console.log(response.data);
+      }
+  
+      if (response.error) {
+        // Handle the error
+        console.log(response.error.message);
+      }
     },
 [email, password]  );
   // console.log(data);
@@ -79,7 +88,7 @@ export const LoginScreen = ({ navigation }: any) => {
         </View>
         <Spacer variant="medium" />
         <View>
-          <Label style={{ marginBottom: 5 }}>Email</Label>
+          <Label style={{ marginBottom: 5 }}><Text>Email</Text></Label>
           <TextField
             onChange={handleEmailChange}
             variant="solid"
@@ -89,7 +98,7 @@ export const LoginScreen = ({ navigation }: any) => {
         <Spacer variant="medium" />
 
         <View>
-          <Label style={{ marginBottom: 5 }}>Password</Label>
+          <Label style={{ marginBottom: 5 }}><Text>Password</Text></Label>
           <TextField
             onChange={handlePasswordChange}
             variant="solid"
@@ -112,8 +121,10 @@ export const LoginScreen = ({ navigation }: any) => {
           onPress={() => OnLoginClick()}
           >
             
-            
-            Login 
+            <Text>
+            Login
+            </Text>
+             
           </TouchableOpacity>
          
         </View>
