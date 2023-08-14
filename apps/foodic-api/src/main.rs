@@ -1,8 +1,7 @@
 use actix_cors::Cors;
 use actix_web::{get, http, post, web, App, HttpResponse, HttpServer, Responder};
+use log::{debug, error, info, log_enabled, Level};
 use mongodb::bson::doc;
-use log::{debug, error, log_enabled, info, Level};
-
 
 // MongoDB client instance
 
