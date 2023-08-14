@@ -17,7 +17,7 @@ const variants: Record<TextInputVariants, any> = {
     width:250,
   },
   solid: {
-    backgroundColor: "lightgray",
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 8,
     width:250,

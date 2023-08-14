@@ -75,6 +75,7 @@ export const SignUp = () => {
       <Container
         style={{
           flex: 1,
+          backgroundColor:"#000000",
           justifyContent: "center",
           alignItems: "center",
           padding: 20,
@@ -87,7 +88,7 @@ export const SignUp = () => {
           </View>
           <Spacer variant="small" />
 
-          <Text colorVariant="title" variant="title">
+          <Text colorVariant="title" variant="logo">
             Leaf & loof
           </Text>
         </View>
@@ -141,6 +142,7 @@ export const SignUp = () => {
         <Spacer variant="large" />
         <View>
           <Button
+            variant="primary"
             onPress={OnSignupClick}
             style={{ width: 250, alignItems: "center" }}
           >

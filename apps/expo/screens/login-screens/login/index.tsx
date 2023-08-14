@@ -41,6 +41,7 @@ export const LoginScreen = () => {
     >
       <Container
         style={{
+          backgroundColor: "#000000",
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
@@ -54,15 +55,13 @@ export const LoginScreen = () => {
           </View>
           <Spacer variant="small" />
 
-          <Text colorVariant="title" variant="title">
+          <Text colorVariant="title" variant="logo">
             Leaf & loof
           </Text>
         </View>
         <Spacer variant="medium" />
         <View>
-          <Label style={{ marginBottom: 5 }}>
-            Email
-          </Label>
+          <Label style={{ marginBottom: 5 }}>Email</Label>
           <TextField
             onChange={handleEmailChange}
             variant="solid"
@@ -72,9 +71,7 @@ export const LoginScreen = () => {
         <Spacer variant="medium" />
 
         <View>
-          <Label style={{ marginBottom: 5 }}>
-            Password
-          </Label>
+          <Label style={{ marginBottom: 5 }}>Password</Label>
           <TextField
             onChange={handlePasswordChange}
             variant="solid"
@@ -93,6 +90,7 @@ export const LoginScreen = () => {
         <Spacer variant="large" />
         <View>
           <Button
+            variant="primary"
             style={{ width: 250, alignItems: "center" }}
             onPress={() => OnLoginClick()}
           >
@@ -106,7 +104,7 @@ export const LoginScreen = () => {
             variant="link"
             style={{ width: 250, alignItems: "center" }}
           >
-            <Text colorVariant="title" variant="title">
+            <Text colorVariant="title" variant="body">
               Create an account signup
             </Text>
           </Button>

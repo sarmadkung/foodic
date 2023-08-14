@@ -12,18 +12,23 @@ const variants: Record<TextVariants, any> = {
   title: {
     fontSize: 20,
   },
+  logo: {
+    fontSize: 24,
+  },
 };
 
 const colorVariants: Record<TextVariants, TextStyle> = {
   caption: {
-    color: lightTheme.color.caption,
+    color: lightTheme.color.base1,
   },
   body: {
     color: lightTheme.color.body,
   },
   title: {
-    color: lightTheme.color.base1,
-
+    color: lightTheme.color.text,
+  },
+  logo: {
+    color: lightTheme.color.text,
   },
 };
 
@@ -44,7 +49,7 @@ export const Text: FC<TextType> = ({
   );
 };
 
-type TextVariants = "body" | "title" | "caption";
+type TextVariants = "body" | "title" | "caption" | "logo";
 export type TextType = TextProps & {
   children: any;
   variant?: TextVariants;
