@@ -46,7 +46,18 @@ pub async fn create_restaurant(
 // Restaurant request struct
 #[derive(serde::Deserialize)]
 pub struct RestaurantRequest {
-    id: ObjectId,
+    name: String,
+    location: String,
+    email: String,
+    phone_number: String,
+    address: String,
+    city: String,
+    province: String,
+}
+
+#[derive(serde::Deserialize)]
+pub struct UpdateRestaurantRequest {
+    id: String,
     name: String,
     location: String,
     email: String,
@@ -70,7 +81,7 @@ pub fn validate_restaurant_data(data: &RestaurantRequest) -> bool {
 
 // Handler for the update restaurant endpoint
 pub async fn update_restaurant(
-    data: web::Json<RestaurantRequest>,
+    data: web::Json<UpdateRestaurantRequest>,
     state: web::Data<AppState>,
 ) -> impl Responder {
     let restaurant_id = &data.id;
