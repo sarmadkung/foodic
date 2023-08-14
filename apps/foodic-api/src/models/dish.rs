@@ -6,11 +6,11 @@ pub struct Dish {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
     pub id: Option<ObjectId>,
     pub name: String,
-    pub main_ingredients: Vec<String>,
+    pub main_ingredients: String,
     pub category: DishType,
     pub description: String,
     pub nutritional_info: String,
-    pub cooking_time: Number,
+    pub cooking_time: f64,
     pub cooking_method: String,
 }
 

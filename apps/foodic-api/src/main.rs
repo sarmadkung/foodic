@@ -10,6 +10,8 @@ mod database;
 mod models;
 use api::restaurant::{create_restaurant, update_restaurant};
 use api::users::{login, signup};
+use api::menu::{add_dish, get_categories};
+
 use database::connection::{create_client, AppState};
 
 use serde::{Deserialize, Serialize};
@@ -59,10 +61,10 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/restaurant/create").route(web::post().to(create_restaurant)))
             .service(web::resource("/restaurant/update").route(web::post().to(update_restaurant)))
             .service(web::resource("/dishes").route(web::get().to(update_restaurant)))
-            .service(web::resource("/dishes/create").route(web::post().to(update_restaurant)))
+            .service(web::resource("/dishes/create").route(web::post().to(add_dish)))
             .service(web::resource("/dishes/edit/:id").route(web::post().to(update_restaurant)))
             .service(web::resource("/restaurant/delete/:id").route(web::delete().to(update_restaurant)))
-            .service(web::resource("/dishes/category").route(web::post().to(update_restaurant)))
+            .service(web::resource("/dishes/category").route(web::get().to(get_categories)))
             .service(web::resource("/dish/:id").route(web::post().to(update_restaurant)))
 
             .route("/hey", web::get().to(manual_hello))
