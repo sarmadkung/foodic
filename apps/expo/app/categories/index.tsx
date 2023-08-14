@@ -10,8 +10,11 @@ export default function Page() {
   ];
 
   const popularItems = [
-    { id: 1, name: 'Popular Item 1', category: 'Main Course', image: require("../../assets/dish.jpg") },
-    { id: 2, name: 'Popular Item 2', category: 'Appetizers', image: require("../../assets/dish.jpg") },
+    { id: 1, name: 'Item 1', category: 'Main Course', image: require("../../assets/dish.jpg") },
+    { id: 2, name: 'Item 2', category: 'Appetizers', image: require("../../assets/dish.jpg") },
+    { id: 3, name: 'Item 3', category: 'Appetizers', image: require("../../assets/dish.jpg") },
+    { id: 4, name: 'Item 4', category: 'Appetizers', image: require("../../assets/dish.jpg") },
+
     // Add more popular items as needed
   ];
   return (

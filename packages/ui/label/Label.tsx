@@ -11,7 +11,7 @@ interface LabelProps extends TextProps {
 const variants: Record<LabelVariants, any> = {
   default: {
     fontSize: 16,
-    color: 'black',
+    color: 'white',
   },
   outlined: {
     fontSize: 16,

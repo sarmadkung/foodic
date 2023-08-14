@@ -78,9 +78,9 @@ const variants: Record<
   },
   primary: {
     buttonStyle: {
-      backgroundColor: "#FFD700",
+      backgroundColor: "##ff4f4f",
       padding: 10,
-      borderRadius: 8,
+      borderRadius: 20,
     },
     textStyle: {
       fontSize: 16,
@@ -128,7 +128,7 @@ export const Button: FC<ButtonType> = ({
       style={[[variants[variant].buttonStyle], [colorVariants[colorVariant], style]]}
       {...props}
     >
-      <Text colorVariant="body" variant="title">
+      <Text colorVariant="body" variant="body">
         {children}
       </Text>
     </TouchableOpacity>
