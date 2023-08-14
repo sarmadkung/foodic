@@ -7,11 +7,11 @@ import {
   Alert,
   ImageSourcePropType,
   View,
+  ImageBackground,
 } from "react-native";
 import { MotiView } from "moti";
-import { RectButton } from "react-native-gesture-handler";
-import { TextField, Text, Container } from "ui";
-import { Ionicons } from "@expo/vector-icons";
+import { Header } from "../../../components/base/header";
+import { TextField, Text, Container, SlickSlider } from "ui";
 interface Category {
   id: number;
   title: string;
@@ -38,6 +38,7 @@ export const Category: React.FC<CategoryScreenProps> = ({
   const [searchText, setSearchText] = useState("");
   const [filteredCategories, setFilteredCategories] =
     useState<Category[]>(categories);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleSearch = (text: string) => {
     setSearchText(text);
@@ -54,6 +55,38 @@ export const Category: React.FC<CategoryScreenProps> = ({
   const handlePopularItemPress = (item: PopularItem) => {
     Alert.alert(`Popular Item Pressed: ${item.name}`);
   };
+  const handleSlidePress = () => {
+    alert("slide");
+  };
+
+  const slides = [
+    {
+      text: "Item 1",
+      image: require("../../../assets/dish.jpg"),
+      onPress: () => handleSlidePress(), // Provide an onPress function
+    },
+    {
+      text: "Item 2",
+      image: require("../../../assets/dish.jpg"),
+      onPress: () => handleSlidePress(), // Provide an onPress function
+    },
+    {
+      text: "Item 3",
+      image: require("../../../assets/dish.jpg"),
+      onPress: () => handleSlidePress(), // Provide an onPress function
+    },
+    {
+      text: "Item 4",
+      image: require("../../../assets/dish.jpg"),
+      onPress: () => handleSlidePress(), // Provide an onPress function
+    },
+    {
+      text: "Item 5",
+      image: require("../../../assets/dish.jpg"),
+      onPress: () => handleSlidePress(), // Provide an onPress function
+    },
+    // Add more slides as needed
+  ];
 
   return (
     <Container
@@ -66,100 +99,47 @@ export const Category: React.FC<CategoryScreenProps> = ({
         margin: 10,
       }}
     >
-      <MotiView
-        style={styles.searchInputContainer}
-        from={{ opacity: 0, translateY: -20 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        transition={{ type: "timing", duration: 500 }}
-      >
-        <View style={styles.container}>
-          <Image
-            alt="img"
-            source={require("../../../assets/dish.jpg")} // Replace with your image path
-            style={styles.image}
-          />
-          <View style={styles.overlay}>
-            <TouchableOpacity style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color="white" />
-            </TouchableOpacity>
-            <Text style={styles.title}>Leaf & Loof</Text>
-            <TouchableOpacity style={styles.navButton}>
-              <Ionicons name="menu-outline" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
+      <Text >hi</Text>
+      <Header />
+      
+      <View>
+        {/* Popular Items */}
 
+        <Text style={styles.categoriesHeader}>Popular Items</Text>
+        <View style={styles.slideContainer}>
+          /
+          <SlickSlider slides={slides} />
+        </View>
+        {/* Category List */}
+        <Text style={styles.categoriesHeader}>Categories</Text>
         <TextField
+          style={{width:'100%', marginBottom:8}}
           placeholder="Search Categories..."
           value={searchText}
           variant="solid"
           onChangeText={handleSearch}
         />
-      </MotiView>
-      <View>
-        {/* Popular Items */}
-        <Text style={styles.categoriesHeader}>
-          Popular Items <span style={styles.span}></span>
-        </Text>
-        <FlatList
-          data={popularItems}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <MotiView
-              style={styles.popularItem}
-              from={{ opacity: 0, translateX: -100 }}
-              animate={{ opacity: 1, translateX: 0 }}
-              transition={{ type: "timing", duration: 500 }}
-            >
-              <TouchableOpacity
-                style={{ margin: 5 }}
-                onPress={() => handlePopularItemPress(item)}
-              >
-                <Image
-                  alt="img"
-                  source={item.image}
-                  style={styles.popularItemImage}
-                />
-                <Text variant="body">{item.name}</Text>
-              </TouchableOpacity>
-            </MotiView>
-          )}
-          initialNumToRender={3}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-
-        {/* Category List */}
-        <Text style={styles.categoriesHeader}>Categories</Text>
         <FlatList
           data={filteredCategories}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-              <RectButton style={styles.categoryItem}>
+              <ImageBackground
+                source={item.image}
+                style={styles.categoryItem}
+                imageStyle={styles.imageBackground}
+              >
+                <View style={styles.overlay} />
                 <MotiView
                   style={styles.categoryItemImageContainer}
                   from={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "timing", duration: 500 }}
                 >
-                  <Image
-                    alt="img"
-                    source={item.image}
-                    style={styles.categoryItemImage}
-                  />
+                  {/* Centered Text */}
+                  <Text style={styles.categoryText}>{item.title}</Text>
                 </MotiView>
-                <Text
-                  style={{ color: "#000000" }}
-                  variant="body"
-                  colorVariant="body"
-                >
-                  {item.title}
-                </Text>
-                <Text variant="caption" style={{ color: "#000000" }}>
-                  {item.subtitle}
-                </Text>
-              </RectButton>
+              </ImageBackground>
             </TouchableOpacity>
           )}
         />
@@ -171,6 +151,16 @@ export const Category: React.FC<CategoryScreenProps> = ({
 const styles = StyleSheet.create({
   searchInputContainer: {
     marginBottom: 16,
+  },
+  imageBackground: {
+    width: "100%",
+    height: "100%",
+  },
+  categoryText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
   popularItem: {
@@ -188,6 +178,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust opacity as needed
+  },
   categoriesHeader: {
     fontSize: 18,
     fontWeight: "bold",
@@ -195,17 +189,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   categoryItem: {
-    flexDirection: "column",
-    alignItems: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: "#f5f5f5",
-    marginBottom: 8,
+    margin: 10,
+    padding: 20,
+    borderRadius: 10,
+    height: 130,
+    overflow: "hidden",
   },
   categoryItemImageContainer: {
-    borderRadius: 40,
-    marginBottom: 8,
+    flex: 1,
+    justifyContent: "center", // Vertically center the text
+    alignItems: "center",
   },
   categoryItemImage: {
     width: 80,
@@ -222,18 +215,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-  },
   backButton: {
     padding: 5,
   },
@@ -245,8 +226,8 @@ const styles = StyleSheet.create({
   navButton: {
     padding: 5,
   },
-  span: {
-    borderBottomWidth: 2,
-    borderBottomColor: "white",
+  slideContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
