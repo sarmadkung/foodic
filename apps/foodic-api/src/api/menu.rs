@@ -10,7 +10,6 @@ use mongodb::Collection;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::mem::discriminant;
-
 #[derive(Serialize)]
 struct LoginResponse {
     token: String,
@@ -100,23 +99,24 @@ pub async fn add_dish(
 }
 
 pub async fn get_categories(state: web::Data<AppState>) -> HttpResponse {
+    
+    let pipeline = vec![
+        doc! {
+            "$group": {
+                "category": "$category",
+                "records": { "$push": "$$ROOT" },
+                "count": { "$sum": 1 }
+            }
+        },
+    ];
     // Access the MongoDB client from the application state
     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
 
+    let mut results = collection.aggregate(pipeline, None).await?;
     // Query the database to retrieve categories of dishes
-    let categories = collection.distinct("category", doc! {}, None).await;
-
-    match categories {
-        Ok(categories) => {
-            let categories: Vec<String> = categories
-                .iter()
-                .filter_map(|b| b.as_str().map(|s| s.to_owned()))
-                .collect();
-            HttpResponse::Ok().json(categories)
-        }
-        Err(_) => {
-            // Error retrieving categories
-            HttpResponse::InternalServerError().body("Failed to retrieve categories")
-        }
-    }
+    while let Some(result) = results.next().await {
+        // Use serde to deserialize into the MovieSummary struct:
+        let doc: Dish = bson::from_document(result?)?;
+        println!("* {}", doc);
+     }
 }
