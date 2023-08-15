@@ -37,6 +37,7 @@ pub struct AddDishRequest {
     pub nutritional_info: String,
     pub cooking_time: f64,
     pub cooking_method: String,
+    pub price: u32
 }
 // Function to validate signup data
 pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
@@ -55,6 +56,7 @@ pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
         && !data.cooking_time.is_nan()
         && data.cooking_time != 0.0
         && !data.cooking_method.is_empty()
+        && !data.price.is_empty()
 }
 
 pub async fn add_dish(
@@ -76,6 +78,7 @@ pub async fn add_dish(
             "nutritional_info": &data.nutritional_info,
             "cooking_time": &data.cooking_time,
             "cooking_method": &data.cooking_method,
+            "price": &data.price,
 
         };
         fn category_to_string(category: &DishType) -> &str {

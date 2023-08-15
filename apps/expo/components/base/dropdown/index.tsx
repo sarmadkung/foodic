@@ -4,10 +4,10 @@ import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const data = [
-  { label: "Customer", value: "customer" },
-  { label: "Admin", value: "admin" },
-  { label: "Waiter", value: "waiter" },
-  { label: "Cheef", value: "cheef" },
+  { label: "Appetizer", value: "Appetizer" },
+  { label: "MainCourse", value: "MainCourse" },
+  { label: "Dessert", value: "Dessert" },
+  { label: "Side", value: "Side" },
 ];
 
 const MultiSelectComponent = ({ handleDropdownSelect, userRole }: any) => {
@@ -38,14 +38,14 @@ const MultiSelectComponent = ({ handleDropdownSelect, userRole }: any) => {
         data={data}
         labelField="label"
         valueField="value"
-        placeholder="Select role"
+        placeholder="Select type"
         searchPlaceholder="Search..."
         value={selected}
         onChange={handleDropdownChange}
         renderLeftIcon={() => (
           <AntDesign
             style={styles.icon}
-            color="black"
+            color="white"
             name="Safety"
             size={20}
           />
@@ -57,22 +57,25 @@ const MultiSelectComponent = ({ handleDropdownSelect, userRole }: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 16 },
+  container: { padding: 1 },
   dropdown: {
-    height: 50,
-    backgroundColor: "transparent",
-    borderBottomColor: "gray",
+    height: 35,
+    width:250,
+    backgroundColor: "white",
+    borderBottomColor: "orange",
     borderBottomWidth: 0.5,
+    borderRadius: 8,
+    padding:8
   },
   placeholderStyle: {
-    fontSize: 16,
+    fontSize: 14,
   },
   selectedTextStyle: {
     fontSize: 14,
   },
   iconStyle: {
-    width: 20,
-    height: 20,
+    width: 10,
+    height: 10,
   },
   inputSearchStyle: {
     height: 40,
