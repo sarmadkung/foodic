@@ -10,7 +10,7 @@ pub struct Dish {
     pub category: DishType,
     pub description: String,
     pub nutritional_info: String,
-    pub cooking_time: f64,
+    pub cooking_time: String,
     pub cooking_method: String,
     pub price: u32,
 }

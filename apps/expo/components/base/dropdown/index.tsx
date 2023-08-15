@@ -4,10 +4,10 @@ import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const data = [
-  { label: "Appetizer", value: "Appetizer" },
-  { label: "MainCourse", value: "MainCourse" },
-  { label: "Dessert", value: "Dessert" },
-  { label: "Side", value: "Side" },
+  { label: "Rice", value: "Rice" },
+  { label: "Admin", value: "admin" },
+  { label: "Waiter", value: "waiter" },
+  { label: "Cheef", value: "cheef" },
 ];
 
 const MultiSelectComponent = ({ handleDropdownSelect, userRole }: any) => {

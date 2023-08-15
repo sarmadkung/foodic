@@ -1,26 +1,36 @@
 import React, { useCallback, useState } from "react";
 import { View, TextInput } from "react-native";
-import MultiSelectComponent from "../../../components/base/dropdown";
-import supabase from "../../../config/initSupabase";
+import CustomDropdown from "../../../components/base/singleSelect";
 import { Button, Container, Image, Label, TextField } from "ui";
 import { usePost } from "../../../components/hooks/usePost";
 import { router } from "expo-router";
 
+const options = [
+  { label: 'Appetizer', value: 'Appetizer' },
+  { label: 'Main Course', value: 'MainCourse' },
+  { label: 'Dessert', value: 'Dessert' },
+  { label: 'Side', value: 'Side' },
+];
 export const CreateDish = () => {
   const [name, setName] = useState<string>("");
   const [main_ingredients, setMain_ingredients] = useState<string>("");
-  const [cooking_time, setCookingTime] = useState<number>(0);
+  const [cooking_time, setCookingTime] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [nutritional_info, setNutritionalInfo] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [cooking_method, setCookingMethod] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState('');
+  const placeholder = 'Select an option';
 
+  const handleSelect = (value:any) => {
+    setCategory(value);
+  };
 
   const { response, postRequest } = usePost("http://localhost:3005/dishes/create");
 
   const OnCreateDishClick = useCallback(async () => {
-    await postRequest({ name, main_ingredients, cooking_method,cooking_time,price,description,nutritional_info, category });
+    await postRequest({ name, main_ingredients, cooking_method,cooking_time,price:Number(price),description,nutritional_info, category });
     if (response) {
       localStorage.setItem("token", response?.data?.token);
       router.push("/categories");
@@ -54,7 +64,12 @@ export const CreateDish = () => {
           {" "}
           <Label style={{ marginBottom: 8 }}>Dish type</Label>
         </View>
-        <MultiSelectComponent />
+        <CustomDropdown
+        options={options}
+        selectedValue={category}
+        onSelect={handleSelect}
+        placeholder={placeholder} // Pass the placeholder prop
+      />
       </View>
       <View style={{ marginTop: 20 }}>
         <Label style={{ marginBottom: 8 }}>Ingredient</Label>
@@ -67,6 +82,7 @@ export const CreateDish = () => {
       <View style={{ marginTop: 20 }}>
         <Label style={{ marginBottom: 8 }}>Price</Label>
         <TextField
+          
           onChange={(e) => setPrice(e.target.value)}
           variant="solid"
           placeholder="Enter dish price"
@@ -110,7 +126,7 @@ export const CreateDish = () => {
         <Button
           variant="primary"
           style={{ width: 250, alignItems: "center" }}
-          // onPress={() => OnLoginClick()}
+          onPress={() => OnCreateDishClick()}
         >
           Create Dish
         </Button>
