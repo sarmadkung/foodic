@@ -35,8 +35,9 @@ pub struct AddDishRequest {
     pub category: DishType,
     pub description: String,
     pub nutritional_info: String,
-    pub cooking_time: f64,
+    pub cooking_time: String,
     pub cooking_method: String,
+    pub price: u32
 }
 // Function to validate signup data
 pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
@@ -52,9 +53,9 @@ pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
         && !data.main_ingredients.is_empty()
         && !data.description.is_empty()
         && !data.nutritional_info.is_empty()
-        && !data.cooking_time.is_nan()
-        && data.cooking_time != 0.0
+        && !data.cooking_time.is_empty()
         && !data.cooking_method.is_empty()
+        && !data.price !=0
 }
 
 pub async fn add_dish(
@@ -76,6 +77,7 @@ pub async fn add_dish(
             "nutritional_info": &data.nutritional_info,
             "cooking_time": &data.cooking_time,
             "cooking_method": &data.cooking_method,
+            "price": &data.price,
 
         };
         fn category_to_string(category: &DishType) -> &str {
@@ -98,25 +100,24 @@ pub async fn add_dish(
     }
 }
 
-pub async fn get_categories(state: web::Data<AppState>) -> HttpResponse {
+// pub async fn get_categories(state: web::Data<AppState>) -> HttpResponse {
     
-    let pipeline = vec![
-        doc! {
-            "$group": {
-                "category": "$category",
-                "records": { "$push": "$$ROOT" },
-                "count": { "$sum": 1 }
-            }
-        },
-    ];
-    // Access the MongoDB client from the application state
-    let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
+//     let pipeline = vec![
+//         doc! {
+//             "$group": {
+//                 "category": "$category",
+//                 "records": { "$push": "$$ROOT" },
+//                 "count": { "$sum": 1 }
+//             }
+//         },
+//     ];
+//     // Access the MongoDB client from the application state
+//     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
 
-    let mut results = collection.aggregate(pipeline, None).await?;
-    // Query the database to retrieve categories of dishes
-    while let Some(result) = results.next().await {
-        // Use serde to deserialize into the MovieSummary struct:
-        let doc: Dish = bson::from_document(result?)?;
-        println!("* {}", doc);
-     }
-}
+//     let mut results = collection.aggregate(pipeline, None).await?;
+//     // Query the database to retrieve categories of dishes
+//     // while let Some(result) = results.next().await {
+//     //     // Use serde to deserialize into the MovieSummary struct:
+//     //     let doc: Dish = bson::from_document(result?)?;
+//     //  }
+// }

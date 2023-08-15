@@ -51,7 +51,7 @@ export const LoginScreen = () => {
       >
         <View>
           <View style={{ borderRadius: 50, overflow: "hidden" }}>
-            <Image alt="image" source={require("../../../assets/dish.jpg")} />
+            <Image variant="small" alt="image" source={require("../../../assets/dish.jpg")} />
           </View>
           <Spacer variant="small" />
 
