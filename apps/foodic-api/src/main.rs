@@ -40,6 +40,7 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
     let client = create_client().await;
     let db = client.database("foodic");
+    // sha:2nd commit
     // sha:first commit
     // Added last commit
     // Added commit
