@@ -1,9 +1,14 @@
 import React from "react";
-import { StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 import { MotiImage, MotiView } from "moti";
 import { Container, Text, Image, Button } from "ui";
+import { useGet } from "../../../components/hooks/useGet";
 
-export const AboutDish: React.FC = () => {
+
+export const AboutDish = ({ dish }: any) => {
+  const { data } = useGet(`http://localhost:3005/dish/${dish}`);
+
+  console.log(data)
   return (
     <Container style={styles.container}>
       <MotiImage
@@ -49,10 +54,7 @@ export const AboutDish: React.FC = () => {
         <Text style={styles.buttonText}>Place Order</Text>
       </Button>
 
-      <Button
-        style={styles.buttonContainer}
-        onPress={() => alert("Go Back")}
-      >
+      <Button style={styles.buttonContainer} onPress={() => alert("Go Back")}>
         <Text style={styles.buttonText}>Back</Text>
       </Button>
     </Container>

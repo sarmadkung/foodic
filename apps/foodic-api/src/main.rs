@@ -8,7 +8,7 @@ use mongodb::bson::doc;
 mod api;
 mod database;
 mod models;
-use api::menu::{add_dish, get_categories, get_dishes};
+use api::menu::{add_dish, get_categories, get_dishes, get_dish};
 use api::restaurant::{create_restaurant, update_restaurant};
 use api::users::{login, signup};
 
@@ -72,7 +72,7 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::resource("/restaurant/delete/:id").route(web::delete().to(update_restaurant)),
             )
-            .service(web::resource("/dish/:id").route(web::post().to(update_restaurant)))
+            .service(web::resource("/dish/{id}").route(web::get().to(get_dish)))
             .route("/hey", web::get().to(manual_hello))
     })
     .bind(("0.0.0.0", 3005))?

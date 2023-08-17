@@ -11,6 +11,7 @@ use mongodb::Collection;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::mem::discriminant;
+use bson::{bson, Bson};
 #[derive(Serialize)]
 struct LoginResponse {
     token: String,
@@ -129,16 +130,16 @@ pub async fn get_categories(state: web::Data<AppState>) -> impl Responder {
 
 
 
-pub async fn get_dishes(info: web::Path<(String,)>,state: web::Data<AppState>) -> impl Responder {
-    let dish_category = info.0.clone();
-    let filter = doc! { "category": "Side" };
+pub async fn get_dishes(category_type: web::Path<String>, state: web::Data<AppState>) -> impl Responder {
+    let dish_category = category_type.to_string();
+    let filter = doc! { "category": dish_category };
     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
     let mut cursor = collection.find(filter, None).await.unwrap();
-    let mut categories = Vec::new();
+    let mut dishes = Vec::new();
 
     // Iterate over the results of the cursor.
     while let Some(dish) = cursor.try_next().await.unwrap() {
-        categories.push(dish)
+        dishes.push(dish)
         // println!("category: {}", dish.category.to_owned());
     }
     // for result in cursor {
@@ -146,5 +147,15 @@ pub async fn get_dishes(info: web::Path<(String,)>,state: web::Data<AppState>) -
     //         categories.push(category)
     //     }
     // }
-    HttpResponse::Ok().json(categories)
+    HttpResponse::Ok().json(dishes)
+}
+
+pub async fn get_dish(id: web::Path<String>, state: web::Data<AppState>) -> impl Responder {
+    let dish_id_str: &web::Path<ObjectId> = &id;
+    let oid = Bson::ObjectId(dish_id_str.to_string());
+    let filter = doc! { "_id": oid };
+    let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
+    let dish_detail = collection.find_one(filter, None).await.unwrap();
+
+    HttpResponse::Ok().json(dish_detail)
 }
