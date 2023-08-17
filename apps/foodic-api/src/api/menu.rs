@@ -104,7 +104,7 @@ pub async fn add_dish(
 pub async fn get_categories(state: web::Data<AppState>) -> impl Responder {
     let pipeline = vec![doc! {
         "$group": {
-            "category": "$category",
+            "_id": "$category",
             "records": { "$push": "$$ROOT" },
             "count": { "$sum": 1 }
         }
@@ -112,6 +112,28 @@ pub async fn get_categories(state: web::Data<AppState>) -> impl Responder {
     // Access the MongoDB client from the application state
     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
     let mut cursor = collection.aggregate(pipeline, None).await.unwrap();
+    let mut categories = Vec::new();
+
+    // Iterate over the results of the cursor.
+    while let Some(dish) = cursor.try_next().await.unwrap() {
+        categories.push(dish)
+        // println!("category: {}", dish.category.to_owned());
+    }
+    // for result in cursor {
+    //     if let Ok(category) = result {
+    //         categories.push(category)
+    //     }
+    // }
+    HttpResponse::Ok().json(categories)
+}
+
+
+
+pub async fn get_dishes(info: web::Path<(String,)>,state: web::Data<AppState>) -> impl Responder {
+    let dish_category = info.0.clone();
+    let filter = doc! { "category": "Side" };
+    let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
+    let mut cursor = collection.find(filter, None).await.unwrap();
     let mut categories = Vec::new();
 
     // Iterate over the results of the cursor.

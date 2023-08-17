@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -12,11 +12,11 @@ import {
 import { MotiView } from "moti";
 import { Header } from "../../../components/base/header";
 import { TextField, Text, Container, SlickSlider } from "ui";
+import { router } from "expo-router";
+
 interface Category {
-  id: number;
-  title: string;
-  subtitle: string;
-  image: ImageSourcePropType;
+  _id: string;
+  count: number;
 }
 
 interface PopularItem {
@@ -31,10 +31,7 @@ interface CategoryScreenProps {
   popularItems: PopularItem[];
 }
 
-export const Category: React.FC<CategoryScreenProps> = ({
-  categories,
-  popularItems,
-}) => {
+export const Category: React.FC<CategoryScreenProps> = ({ categories }) => {
   const [searchText, setSearchText] = useState("");
   const [filteredCategories, setFilteredCategories] =
     useState<Category[]>(categories);
@@ -49,7 +46,8 @@ export const Category: React.FC<CategoryScreenProps> = ({
   };
 
   const handleCategoryPress = (category: Category) => {
-    Alert.alert(`Category Pressed: ${category.title}`);
+    console.log(`Category Pressed: ${category}`);
+    router.push(`/dishes/${category}`);
   };
 
   const handlePopularItemPress = (item: PopularItem) => {
@@ -99,55 +97,53 @@ export const Category: React.FC<CategoryScreenProps> = ({
         margin: 10,
       }}
     >
-      <Text >hi</Text>
       <Header />
-      
       <View>
-        {/* Popular Items */}
-
         <Text style={styles.categoriesHeader}>Popular Items</Text>
         <View style={styles.slideContainer}>
           /
           <SlickSlider slides={slides} />
         </View>
-        {/* Category List */}
         <Text style={styles.categoriesHeader}>Categories</Text>
         <TextField
-          style={{width:'100%', marginBottom:8}}
+          style={{ width: "100%", marginBottom: 8 }}
           placeholder="Search Categories..."
           value={searchText}
           variant="solid"
           onChangeText={handleSearch}
         />
         <FlatList
-          data={filteredCategories}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-              <ImageBackground
-                source={item.image}
-                style={styles.categoryItem}
-                imageStyle={styles.imageBackground}
-              >
-                <View style={styles.overlay} />
-                <MotiView
-                  style={styles.categoryItemImageContainer}
-                  from={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: "timing", duration: 500 }}
+          data={categories}
+          keyExtractor={(data) => data?._id}
+          renderItem={({ item }: any) => (
+            <View>
+              <TouchableOpacity onPress={() => handleCategoryPress(item?._id)}>
+                <ImageBackground
+                  source={require("../../../assets/dish.jpg")}
+                  style={styles.categoryItem}
+                  imageStyle={styles.imageBackground}
                 >
-                  {/* Centered Text */}
-                  <Text style={styles.categoryText}>{item.title}</Text>
-                </MotiView>
-              </ImageBackground>
-            </TouchableOpacity>
+                  <View style={styles.overlay} />
+                  <MotiView
+                    style={styles.categoryItemImageContainer}
+                    from={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "timing", duration: 500 }}
+                  >
+                    <Text style={styles.categoryText}>{item?._id}</Text>
+                    <Text style={{ marginTop: 3 }} variant="body">
+                      Food items: {item?.count}
+                    </Text>
+                  </MotiView>
+                </ImageBackground>
+              </TouchableOpacity>
+            </View>
           )}
         />
       </View>
     </Container>
   );
 };
-
 const styles = StyleSheet.create({
   searchInputContainer: {
     marginBottom: 16,
