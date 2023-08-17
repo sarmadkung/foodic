@@ -3,6 +3,7 @@ use crate::{
     models::{self, dish::Dish},
 };
 use actix_web::{web, HttpResponse, Responder};
+use futures::TryStreamExt;
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use log::{debug, error, info, warn};
 use mongodb::bson::{doc, oid::ObjectId, Document};
@@ -37,7 +38,7 @@ pub struct AddDishRequest {
     pub nutritional_info: String,
     pub cooking_time: String,
     pub cooking_method: String,
-    pub price: u32
+    pub price: u32,
 }
 // Function to validate signup data
 pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
@@ -55,7 +56,7 @@ pub fn validate_addDish_data(data: &AddDishRequest) -> bool {
         && !data.nutritional_info.is_empty()
         && !data.cooking_time.is_empty()
         && !data.cooking_method.is_empty()
-        && !data.price !=0
+        && !data.price != 0
 }
 
 pub async fn add_dish(
@@ -100,24 +101,28 @@ pub async fn add_dish(
     }
 }
 
-// pub async fn get_categories(state: web::Data<AppState>) -> HttpResponse {
-    
-//     let pipeline = vec![
-//         doc! {
-//             "$group": {
-//                 "category": "$category",
-//                 "records": { "$push": "$$ROOT" },
-//                 "count": { "$sum": 1 }
-//             }
-//         },
-//     ];
-//     // Access the MongoDB client from the application state
-//     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
+pub async fn get_categories(state: web::Data<AppState>) -> impl Responder {
+    let pipeline = vec![doc! {
+        "$group": {
+            "category": "$category",
+            "records": { "$push": "$$ROOT" },
+            "count": { "$sum": 1 }
+        }
+    }];
+    // Access the MongoDB client from the application state
+    let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
+    let mut cursor = collection.aggregate(pipeline, None).await.unwrap();
+    let mut categories = Vec::new();
 
-//     let mut results = collection.aggregate(pipeline, None).await?;
-//     // Query the database to retrieve categories of dishes
-//     // while let Some(result) = results.next().await {
-//     //     // Use serde to deserialize into the MovieSummary struct:
-//     //     let doc: Dish = bson::from_document(result?)?;
-//     //  }
-// }
+    // Iterate over the results of the cursor.
+    while let Some(dish) = cursor.try_next().await.unwrap() {
+        categories.push(dish)
+        // println!("category: {}", dish.category.to_owned());
+    }
+    // for result in cursor {
+    //     if let Ok(category) = result {
+    //         categories.push(category)
+    //     }
+    // }
+    HttpResponse::Ok().json(categories)
+}

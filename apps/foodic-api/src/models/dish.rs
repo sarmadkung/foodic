@@ -12,7 +12,7 @@ pub struct Dish {
     pub nutritional_info: String,
     pub cooking_time: String,
     pub cooking_method: String,
-    pub price: u32,
+    pub price: Option<u32>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
