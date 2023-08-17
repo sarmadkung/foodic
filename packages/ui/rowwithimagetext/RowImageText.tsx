@@ -1,22 +1,29 @@
-import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const RowImageText = ({ imageSource, title, description, price, variant }) => {
+export const RowImageText = ({ handleOrder,imageSource,onpressDetail, title, description, price, variant,cooking_time }) => {
   const containerStyle = variant === 'secondary' ? styles.containerSecondary : styles.containerPrimary;
   const titleStyle = variant === 'secondary' ? styles.titleSecondary : styles.titlePrimary;
   const descriptionStyle = variant === 'secondary' ? styles.descriptionSecondary : styles.descriptionPrimary;
 
   return (
     <View style={[styles.container, containerStyle]}>
+      <View style={[styles.container, containerStyle]}>
+      <TouchableOpacity onPress={onpressDetail}  style={[styles.container, containerStyle]}>
       <Image alt="image" source={imageSource} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={[styles.title, titleStyle]}>{title}</Text>
-        <Text style={[styles.description, descriptionStyle]}>{description}</Text>
+          <Text style={[styles.description, descriptionStyle]}>{description}</Text>
+        <Text >{cooking_time}</Text>
+          
       </View>
-      <TouchableOpacity style={styles.button}>
+      </TouchableOpacity>
+      </View>
+      
+      <Text style={styles.price}>Rs: {price}</Text>
+      <TouchableOpacity onPress={handleOrder} style={styles.button}>
           <Text style={styles.buttonText}>Add to order </Text>
         </TouchableOpacity>
-      <Text style={styles.price}>{price}</Text>
+     
     </View>
   );
 };
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: 5,
     borderRadius: 8,
     marginBottom: 8,
   },
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 4,
     marginTop: 8,
-    marginHorizontal:5,
+    marginHorizontal:15,
   },
   buttonText: {
     color: '#fff',

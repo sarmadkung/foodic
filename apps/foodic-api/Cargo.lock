@@ -1160,6 +1160,7 @@ dependencies = [
  "actix",
  "actix-cors",
  "actix-web",
+ "bson",
  "cargo-watch",
  "dotenvy",
  "env_logger",

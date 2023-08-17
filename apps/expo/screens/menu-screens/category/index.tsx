@@ -28,7 +28,6 @@ interface PopularItem {
 
 interface CategoryScreenProps {
   categories: Category[];
-  popularItems: PopularItem[];
 }
 
 export const Category: React.FC<CategoryScreenProps> = ({ categories }) => {
