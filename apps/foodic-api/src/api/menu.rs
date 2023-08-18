@@ -3,6 +3,7 @@ use crate::{
     models::{self, dish::Dish},
 };
 use actix_web::{web, HttpResponse, Responder};
+use bson::{bson, Bson};
 use futures::TryStreamExt;
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use log::{debug, error, info, warn};
@@ -11,7 +12,6 @@ use mongodb::Collection;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::mem::discriminant;
-use bson::{bson, Bson};
 #[derive(Serialize)]
 struct LoginResponse {
     token: String,
@@ -128,9 +128,10 @@ pub async fn get_categories(state: web::Data<AppState>) -> impl Responder {
     HttpResponse::Ok().json(categories)
 }
 
-
-
-pub async fn get_dishes(category_type: web::Path<String>, state: web::Data<AppState>) -> impl Responder {
+pub async fn get_dishes(
+    category_type: web::Path<String>,
+    state: web::Data<AppState>,
+) -> impl Responder {
     let dish_category = category_type.to_string();
     let filter = doc! { "category": dish_category };
     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
@@ -150,10 +151,9 @@ pub async fn get_dishes(category_type: web::Path<String>, state: web::Data<AppSt
     HttpResponse::Ok().json(dishes)
 }
 
-pub async fn get_dish(id: web::Path<String>, state: web::Data<AppState>) -> impl Responder {
-    let dish_id_str: &web::Path<ObjectId> = &id;
-    let oid = Bson::ObjectId(dish_id_str.to_string());
-    let filter = doc! { "_id": oid };
+pub async fn get_dish(path: web::Path<String>, state: web::Data<AppState>) -> impl Responder {
+    let (id) = path.into_inner();
+    let filter = doc! { "_id": ObjectId::parse_str(&id).unwrap()  };
     let collection: Collection<Dish> = state.db.collection::<Dish>("dishes");
     let dish_detail = collection.find_one(filter, None).await.unwrap();
 
