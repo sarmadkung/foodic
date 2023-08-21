@@ -5,6 +5,8 @@
         "./Cargo.toml"
     ],
     "cSpell.words": [
+        "actix",
+        "dotenv",
         "foodic"
     ]
 }

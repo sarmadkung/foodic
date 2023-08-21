@@ -1,14 +1,15 @@
 use actix_cors::Cors;
 use actix_web::{get, http, post, web, App, HttpResponse, HttpServer, Responder};
-use log::{debug, error, info, log_enabled, Level};
+use dotenv::dotenv;
 use mongodb::bson::doc;
+use std::env;
 
 // MongoDB client instance
 
 mod api;
 mod database;
 mod models;
-use api::menu::{add_dish, get_categories, get_dishes, get_dish};
+use api::menu::{add_dish, get_categories, get_dish, get_dishes};
 use api::restaurant::{create_restaurant, update_restaurant};
 use api::users::{login, signup};
 
@@ -37,13 +38,16 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init();
-    let client = create_client().await;
-    let db = client.database("foodic");
-    // Create the application state with the MongoDB database
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL").expect("You've not set the DATABASE_URL");
+    let database_name = env::var("DATABASE_NAME").expect("You've not set the DATABASE_NAME");
+
+    let client = create_client(database_url).await;
+    let db = client.database(&database_name);
     let app_state = web::Data::new(AppState { db });
     println!("Pinged your deployment. You successfully connected to MongoDB!");
-    // Ok(());
+
     HttpServer::new(move || {
         let cors = Cors::default()
             .allowed_origin("http://localhost:19000")
