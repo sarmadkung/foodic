@@ -5,7 +5,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "TAMAGUI_TARGET=web expo start --web"
   },
   "dependencies": {
     "@babel/plugin-transform-export-namespace-from": "^7.22.5",
@@ -20,12 +20,19 @@
     "@rneui/base": "~4.0.0-rc.7",
     "@rneui/themed": "~4.0.0-rc.7",
     "@supabase/supabase-js": "~2.24.0",
+    "@tamagui/animations-react-native": "~1.58.3",
+    "@tamagui/babel-plugin": "~1.58.3",
+    "@tamagui/config": "~1.58.3",
+    "@tamagui/font-inter": "~1.58.3",
+    "@tamagui/theme-base": "~1.58.3",
     "@types/node": "^20.4.2",
     "@types/react": "^18.2.15",
     "@types/react-native-snap-carousel": "^3.8.5",
     "axios": "^1.4.0",
+    "babel-plugin-transform-inline-environment-variables": "~0.4.4",
     "expo": "^48.0.0",
     "expo-constants": "^14.4.2",
+    "expo-font": "~11.4.0",
     "expo-linking": "~4.0.1",
     "expo-router": "~2.0.0",
     "expo-secure-store": "~12.1.1",
@@ -47,6 +54,7 @@
     "react-native-vector-icons": "~9.2.0",
     "react-native-web": "~0.18.10",
     "swr": "^2.2.0",
+    "tamagui": "~1.58.3",
     "typescript": "^5.1.6",
     "ui": "*"
   },
